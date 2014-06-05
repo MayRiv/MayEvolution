@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.AnT = new Tao.Platform.Windows.SimpleOpenGlControl();
             this.button1 = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // AnT
@@ -78,6 +80,7 @@
 
         private Tao.Platform.Windows.SimpleOpenGlControl AnT;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

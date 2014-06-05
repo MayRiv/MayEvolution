@@ -12,22 +12,18 @@ namespace MayEvolutionModels
   /// <summary>
   /// Description of Creature.
   /// </summary>
-  public class Creature:IDrawable
-  {
-      public X:double{get;}
-      public Y:double{get;}
-      public Width:double{get;}
-      public Height:double{get;}
-      public R:System.Single{get;}
-      public B:System.Single{get;}
-      public G:System.Single{get;}
-      public this(x:double,y:double)
-      {
-          this.X = x;
-          this.Y = y;
-          this.Width = 0.4;
-          this.Height = 0.4;
-          this.R = 1.0f;
-      }
-  }
+    public class Creature:Entity
+    {
+        public this(x:double, y:double)
+        {
+            base(x,y);
+        }
+        public override ChangeState():Entity
+        {
+            this.X += 0.1;
+            this.Y += 0.5;
+            //Entity(this.X + 0.1,this.Y + 0.5);
+            Creature(X,Y);
+        }
+    }
 }

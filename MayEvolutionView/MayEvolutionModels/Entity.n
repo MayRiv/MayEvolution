@@ -1,0 +1,39 @@
+﻿using Nemerle;
+using Nemerle.Collections;
+using Nemerle.Text;
+using Nemerle.Utility;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace MayEvolutionModels
+{
+  /// <summary>
+  /// Description of Entity.
+  /// </summary>
+  public class Entity:IDrawable
+  {
+      public X:double{get; protected set;}
+      public Y:double{get;protected set;}
+      public Width:double{get;}
+      public Height:double{get;}
+      public R:System.Single{get;}
+      public B:System.Single{get;}
+      public G:System.Single{get;}
+      public this(x:double,y:double)
+      {
+          this.X = x;
+          this.Y = y;
+          this.Width = 0.4;
+          this.Height = 0.4;
+          this.R = 1.0f;
+      }
+      
+      public virtual ChangeState():Entity
+      {
+          this;
+      }
+  }
+
+}

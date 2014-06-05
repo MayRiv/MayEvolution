@@ -15,5 +15,7 @@ namespace MayEvolutionModels
   public interface IView
   {
       Draw(element:IDrawable):void;
+      Clear():void;
+      event TryReDraw:EventHandler[EventArgs];
   }
 }

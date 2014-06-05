@@ -6,7 +6,7 @@ using Nemerle.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Timers;
 namespace MayEvolutionModels
 {
   /// <summary>
@@ -15,13 +15,27 @@ namespace MayEvolutionModels
   public class MEPresenter
   {
       view:IView;
-      creatures:list[Creature];
+      mutable entities:list[Entity];
+      mutable timer:Timer;
       public this(view:IView)
       {
          this.view = view;
-         creatures = Creature(0.1,0.3)::creatures;
-         foreach(creature in creatures)
-            view.Draw(creature);
+         entities = Creature(-2.9,0.5)::Creature(0.1,0.3)::[];
+         view.TryReDraw += Run;
+         
+      }
+      
+      public Run(_:object,_:EventArgs):void
+      {
+         
+          foreach(entity in entities)
+          {
+               _ = entity.ChangeState();
+          }
+          view.Clear();
+          foreach(entity in entities)
+              view.Draw(entity);
+          
       }
   }
 }

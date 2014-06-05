@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MayEvolutionModels;
+using System.Timers;
 namespace MayEvolutionView
 {
     static class Program
@@ -18,7 +19,7 @@ namespace MayEvolutionView
             Application.SetCompatibleTextRenderingDefault(false);
             var form = new Form1();
             var presenter = new MEPresenter(form);
-            //form.test(0.1, 0.2, 0.3, 0.7);
+
             Application.Run(form);
         }
     }

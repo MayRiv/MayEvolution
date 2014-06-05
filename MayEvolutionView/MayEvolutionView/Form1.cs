@@ -38,11 +38,26 @@ namespace MayEvolutionView
 
             // настройка параметров OpenGL для визуализации 
             Gl.glEnable(Gl.GL_DEPTH_TEST);
+
+
+            timer1 = new Timer();
+            timer1.Interval = 500;
+            timer1.Tick += NeedReDraw;
+            timer1.Enabled = true;
+        }
+        public void NeedReDraw(object o, EventArgs e)
+        {
+            TryReDraw.Invoke(o, e);
+        }
+        public event EventHandler<EventArgs> TryReDraw;
+        public void Clear()
+        {
+            Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
         }
         public void Draw(IDrawable o)
         {
-            Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
-
+            //Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
+            
             Gl.glLoadIdentity();
             Gl.glColor3f(o.R, o.G, o.B);
 

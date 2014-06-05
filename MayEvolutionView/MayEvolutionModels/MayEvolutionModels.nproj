@@ -62,6 +62,9 @@
     <Compile Include="Creature.n">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Entity.n">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="IDrawable.n">
       <SubType>Code</SubType>
     </Compile>

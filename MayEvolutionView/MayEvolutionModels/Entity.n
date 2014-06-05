@@ -18,21 +18,20 @@ namespace MayEvolutionModels
       public Y:double{get;protected set;}
       public Width:double{get;}
       public Height:double{get;}
-      public R:System.Single{get;}
-      public B:System.Single{get;}
-      public G:System.Single{get;}
+      public  R:System.Single{get;protected set;}
+      public  B:System.Single{get;protected set;}
+      public  G:System.Single{get;protected set;}
       public this(x:double,y:double)
       {
           this.X = x;
           this.Y = y;
-          this.Width = 0.4;
-          this.Height = 0.4;
+          this.Width = 0.2;
+          this.Height = 0.2;
           this.R = 1.0f;
       }
       
-      public virtual ChangeState():Entity
+      public virtual ChangeState():void
       {
-          this;
       }
   }
 

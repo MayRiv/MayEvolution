@@ -1,0 +1,23 @@
+﻿using Nemerle;
+using Nemerle.Collections;
+using Nemerle.Text;
+using Nemerle.Utility;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace MayEvolutionModels
+{
+  /// <summary>
+  /// Description of Food.
+  /// </summary>
+  class Food:Entity
+  {
+      public NutritionalValue:int{get;protected set;}//how many times creatures can feed themselves by this food.
+      public this(X:double,Y:double)
+      {
+          base(X,Y);
+      }
+  }
+}

@@ -14,16 +14,27 @@ namespace MayEvolutionModels
   /// </summary>
     public class Creature:Entity
     {
-        public this(x:double, y:double)
+        protected mutable hunger:float;
+
+        protected mutable health:float;
+        protected mutable daysFromBreeding:int;
+ 
+        protected strength:int;
+        protected speed:float;
+        protected breedingCycle:int;
+        protected hungerFear:float;
+        protected hungerSpeed:float;
+        public this(x:double, y:double, strength:int, speed:float,breedingCycle:int,hungerFear:float,hungerSpeed:float)
         {
             base(x,y);
-        }
-        public override ChangeState():Entity
-        {
-            this.X += 0.1;
-            this.Y += 0.5;
-            //Entity(this.X + 0.1,this.Y + 0.5);
-            Creature(X,Y);
+            health = 1f;
+            hunger = 1f;
+            
+            this.strength = strength;
+            this.speed = speed;
+            this.breedingCycle = breedingCycle;
+            this.hungerFear = hungerFear;
+            this.hungerSpeed = hungerSpeed;
         }
     }
 }

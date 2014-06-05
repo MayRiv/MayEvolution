@@ -31,6 +31,7 @@ namespace MayEvolutionView
 
             // настройка проекции 
             Gl.glMatrixMode(Gl.GL_PROJECTION);
+            
             Gl.glLoadIdentity();
             Glu.gluPerspective(45, (float)AnT.Width / (float)AnT.Height, 0.1, 200);
             Gl.glMatrixMode(Gl.GL_MODELVIEW);
@@ -63,7 +64,7 @@ namespace MayEvolutionView
 
             Gl.glPushMatrix();
             Gl.glTranslated(0, 0, -6);
-            Gl.glRotated(45, 1, 1, 0);
+            //Gl.glRotated(45, 1, 1, 0);
 
             // рисуем сферу с помощью библиотеки FreeGLUT 
             //Glut.glutWireSphere(2, 32, 32);

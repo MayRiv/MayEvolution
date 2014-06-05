@@ -1,0 +1,42 @@
+﻿using Nemerle;
+using Nemerle.Collections;
+using Nemerle.Text;
+using Nemerle.Utility;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace MayEvolutionModels
+{
+  /// <summary>
+  /// Description of Map.
+  /// </summary>
+  class Map
+  {
+      static public  Instance: Map
+      {
+         get
+         {
+             when (instance == null) instance = Map();
+             instance;
+         }
+      }
+  
+      private this()
+      {
+          
+      }
+      public GetWorld():list[(double*double*Entity)] 
+      {
+            mutable world;
+            foreach(entity in Entities)
+            {
+                world =  (entity.X, entity.Y, entity)::world;
+            }
+            world;
+      }
+      public Entities:list[Entity]{get;set;}
+      static private mutable instance:Map;
+  }
+}

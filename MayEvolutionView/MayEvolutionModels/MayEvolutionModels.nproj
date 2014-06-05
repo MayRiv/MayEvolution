@@ -65,10 +65,22 @@
     <Compile Include="Entity.n">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Food.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Forest.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Human.n">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="IDrawable.n">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="IView.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Map.n">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MEPresenter.n">

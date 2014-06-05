@@ -1,0 +1,74 @@
+﻿using Nemerle;
+using Nemerle.Collections;
+using Nemerle.Text;
+using Nemerle.Utility;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace MayEvolutionModels
+{
+  /// <summary>
+  /// Description of Human.
+  /// </summary>
+  class Human: Creature
+  {
+      public this(x:double, y:double, strength:int, speed:float,breedingCycle:int,hungerFear:float,hungerSpeed:float)
+      {
+        base(x, y, strength, speed,breedingCycle,hungerFear,hungerSpeed);
+      }
+      override public ChangeState():void
+      {
+          if(hunger < hungerFear)
+          {
+              def foodCoord = findNearestFood();
+              def (foodCoordX, foodCoordY) = foodCoord;
+              def (dx, dy) = match(foodCoord)
+                           {
+                            |(x,y) when Math.Abs(x-this.X) > Math.Abs(y-this.Y) => ((Math.Abs(x-this.X)/(x-this.X)):>float, ((this.Y- y)/Math.Abs(this.X -x)):>float);
+                            |(x,y) => (((this.X- x)/Math.Abs(this.Y -y)):>float,  (Math.Abs(y-this.Y)/(y-this.Y)):>float);
+                           }
+              this.X+=speed*dx;
+              this.Y+=speed*dy;
+              
+              
+              when(Math.Abs(foodCoordX - this.X) < 0.2 && Math.Abs(foodCoordY - this.Y) < 0.2)
+                {
+                       /*
+                            To be continued.
+                       */
+                    
+                }
+          }
+          else
+          {
+               this.X+=speed;
+               this.Y-=speed;
+          }
+          hunger-=hungerSpeed;
+      }
+      private findNearestFood():(double*double)
+      {
+          def world = Map.Instance.GetWorld();
+          
+          mutable distance = 10000000000000.0;
+          mutable coord = (1000.0,1000.0);
+          
+          foreach(item in world)
+            (distance, coord) = match(item)
+            {
+                | (x,y, _ is Food) =>
+                    {
+                        def d = Math.Sqrt(Math.Pow((this.X - x),2) + Math.Pow((this.Y-y),2));
+                        if (d < distance)
+                            (d, (x,y));
+                        else 
+                            (distance, coord);
+                        }
+                | _ => (distance, coord);
+            }
+          coord;               
+      }
+  }
+}

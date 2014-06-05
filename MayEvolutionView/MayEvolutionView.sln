@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MayEvolutionView", "MayEvolutionView\MayEvolutionView.csproj", "{DA74A959-3360-4C21-A747-CA95EB6357EE}"
+EndProject
+Project("{EDCC3B85-0BAD-11DB-BC1A-00112FDE8B61}") = "MayEvolutionModels", "MayEvolutionModels\MayEvolutionModels.nproj", "{4ED312C4-BF19-4EE0-8707-9CD08BDC28A5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA74A959-3360-4C21-A747-CA95EB6357EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA74A959-3360-4C21-A747-CA95EB6357EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA74A959-3360-4C21-A747-CA95EB6357EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA74A959-3360-4C21-A747-CA95EB6357EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ED312C4-BF19-4EE0-8707-9CD08BDC28A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ED312C4-BF19-4EE0-8707-9CD08BDC28A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ED312C4-BF19-4EE0-8707-9CD08BDC28A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ED312C4-BF19-4EE0-8707-9CD08BDC28A5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,25 @@
+﻿using Nemerle;
+using Nemerle.Collections;
+using Nemerle.Text;
+using Nemerle.Utility;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace MayEvolutionModels
+{
+  /// <summary>
+  /// Description of IDrawable.
+  /// </summary>
+  public interface IDrawable
+  {
+      X:double{get;}
+      Y:double{get;}
+      Width:double{get;}
+      Height:double{get;}
+      R:System.Single{get;}
+      B:System.Single{get;}
+      G:System.Single{get;}
+  }
+}

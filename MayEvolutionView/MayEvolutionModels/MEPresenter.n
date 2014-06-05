@@ -1,0 +1,27 @@
+﻿using Nemerle;
+using Nemerle.Collections;
+using Nemerle.Text;
+using Nemerle.Utility;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace MayEvolutionModels
+{
+  /// <summary>
+  /// Description of MEPresenter.
+  /// </summary>
+  public class MEPresenter
+  {
+      view:IView;
+      creatures:list[Creature];
+      public this(view:IView)
+      {
+         this.view = view;
+         creatures = Creature(0.1,0.3)::creatures;
+         foreach(creature in creatures)
+            view.Draw(creature);
+      }
+  }
+}

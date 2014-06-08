@@ -50,6 +50,13 @@ namespace MayEvolutionView
         {
             TryReDraw.Invoke(o, e);
         }
+        public int CreatureNumber
+        {
+            set
+            {
+                creaturesLabel.Text = value.ToString();
+            }
+        }
         public event EventHandler<EventArgs> TryReDraw;
         public void Clear()
         {

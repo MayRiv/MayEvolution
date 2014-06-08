@@ -21,26 +21,31 @@ namespace MayEvolutionModels
          foreach(entity in Map.Instance.Entities)
           {
                _ = entity.ChangeState();
+               when (entity is Creature && entity.Dead)
+               {
+                    Map.Instance.Entities = Forest(entity.X,entity.Y)::Entities;   
+               }
           }
           def alive = (e:Entity)=>{!e.Dead;};
-          Entities = Entities.Filter(alive); 
+          Entities = Entities.Filter(alive);
+          
           
       }
       public Init():void
       {
-          Map.Instance.Entities = Forest(0.5f,0.7f)::Human(0.1f, 0.2f,/*coords*/
+          Map.Instance.Entities = Forest(0.5f,0.7f)::Creature(0.1f, 0.2f,/*coords*/
                                                            0.8f,/*strength*/
                                                            0.2f,/*speed*/
                                                            7f,/*viewRadius*/
-                                                           8,/*breedingCycle*/
-                                                           0.3f,/*hungerFear*/
-                                                           0.2f/*hungerSpeed*/)::Human(0.1f, 0.3f,/*coords*/
+                                                           0.15f,/*breedingCycleSpeed*/
+                                                           0.2f,/*hungerFear*/
+                                                           0.1f/*hungerSpeed*/)::Creature(0.2f, 0.3f,/*coords*/
                                                                                        0.1f,/*strength*/
                                                                                        0.1f,/*speed*/
                                                                                        1f,/*viewRadius*/
-                                                                                       10,/*breedingCycle*/
+                                                                                       0.2f,/*breedingCycleSpeed*/
                                                                                        0.5f,/*hungerFear*/
-                                                                                       0.2f/*hungerSpeed*/)::[];
+                                                                                       0.1f/*hungerSpeed*/)::[];
       }
       static public  Instance: Map
       {

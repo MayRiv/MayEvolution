@@ -71,9 +71,6 @@
     <Compile Include="Forest.n">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Human.n">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="IDrawable.n">
       <SubType>Code</SubType>
     </Compile>

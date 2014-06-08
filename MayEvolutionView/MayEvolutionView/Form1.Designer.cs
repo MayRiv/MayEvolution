@@ -32,6 +32,7 @@
             this.AnT = new Tao.Platform.Windows.SimpleOpenGlControl();
             this.button1 = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.creaturesLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // AnT
@@ -63,16 +64,26 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // creaturesLabel
+            // 
+            this.creaturesLabel.AutoSize = true;
+            this.creaturesLabel.Location = new System.Drawing.Point(876, 43);
+            this.creaturesLabel.Name = "creaturesLabel";
+            this.creaturesLabel.Size = new System.Drawing.Size(0, 13);
+            this.creaturesLabel.TabIndex = 2;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(962, 571);
+            this.Controls.Add(this.creaturesLabel);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.AnT);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -81,6 +92,7 @@
         private Tao.Platform.Windows.SimpleOpenGlControl AnT;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label creaturesLabel;
     }
 }
 

@@ -16,25 +16,81 @@ namespace MayEvolutionModels
     {
         protected mutable hunger:float;
         protected mutable health:float;
-        protected mutable daysFromBreeding:int;
+        protected mutable daysToBreeding:float;
  
         protected strength:float;
         protected speed:float;
         protected viewRadius:float;
-        protected breedingCycle:int;
+        protected breedingCycleSpeed:float;
         protected hungerFear:float;
         protected hungerSpeed:float;
-        public this(x:double, y:double, strength:float, speed:float, viewRadius:float,breedingCycle:int,hungerFear:float,hungerSpeed:float)
+        
+        public this(x:double, y:double, strength:float, speed:float, viewRadius:float,breedingCycleSpeed:float,hungerFear:float,hungerSpeed:float)
         {
             base(x,y);
             health = 1f;
             hunger = 1f;
+            daysToBreeding = 1f;
             this.viewRadius = viewRadius;
             this.strength = strength;
             this.speed = speed;
-            this.breedingCycle = breedingCycle;
+            this.breedingCycleSpeed = breedingCycleSpeed;
             this.hungerFear = hungerFear;
             this.hungerSpeed = hungerSpeed;
+        }
+        override public ChangeState():void
+        {
+          def moveTo = (e:Entity) => {
+            def (dx,dy) = ((e.X-this.X), (e.Y - this.Y));
+            
+            this.X+=if (Math.Abs(dx) > speed) speed*Math.Abs(dx)/dx;
+                    else dx;
+            this.Y+=if (Math.Abs(dy) > speed) speed*Math.Abs(dy)/dy;
+                    else dy;          
+          }
+          def near = (e:Entity) => {
+              Math.Sqrt(Math.Pow((this.X - e.X),2) + Math.Pow((this.Y-e.Y),2)) < speed;
+          }
+          
+          if(hunger < hungerFear)
+          {
+              def food = findNearestFood();
+              match(food)
+              {
+                |food is Food =>
+                {
+                  moveTo(food);
+                
+                  when(near(food))
+                  {
+                     eat(food);
+                  }
+                }
+                | _ => {moveSomewhere()}
+              }
+          }
+          else
+          {
+               match(findNearestCreature())
+               {
+                |c is Creature =>
+                {
+                    moveTo(c);
+                    when (near(c) && this.daysToBreeding < 0)
+                    {
+                       when (c.daysToBreeding < 0)
+                        Map.Instance.Entities = doSex(c)::Map.Instance.Entities;
+                    }
+                }
+                |_ => moveSomewhere();
+               }
+               moveSomewhere();
+               
+          }
+          hunger-=hungerSpeed;
+          when (this.daysToBreeding >= 0) this.daysToBreeding-= this.breedingCycleSpeed;
+          when(hunger <= 0) this.Dead = true;
+
         }
         protected eat(food:Food):void
         {
@@ -61,7 +117,7 @@ namespace MayEvolutionModels
                           when (d < distance)
                               entity = item;
                       }
-                      | (_) => {};
+                  | (_) => {};
               }  
           }
           entity;
@@ -85,13 +141,13 @@ namespace MayEvolutionModels
                           when (d < distance)
                               entity = item;
                       }
-                      | (_) => {};
+                  | (_) => {};
               }  
           }
           entity;
         }
         protected moveSomewhere():void
-      {    
+        {    
         def dx = match(Map.Instance.Randomizer.Next(2))
                  {
                   |0 => -1;
@@ -107,13 +163,23 @@ namespace MayEvolutionModels
       }
         protected doSex(partner:Creature):Creature
         { 
+           
+           this.daysToBreeding = 1f;
+           partner.daysToBreeding = 1f;
+           def getFloatMutation = (value:float)=>{match(Map.Instance.Randomizer.Next(2))
+                 {
+                  |0 => (value -0.1):>float;
+                  |1 => (value +0.1):>float;
+                 }}
            Creature(X, Y,/*coords*/
-                    (strength + partner.strength) / 2,/*strength*/
-                    (speed + partner.speed) / 2,/*speed*/
-                    (viewRadius + partner.viewRadius) / 2,/*viewRadius*/
-                    (breedingCycle + partner.breedingCycle),/*breedingCycle*/
-                    (hungerFear + partner.hungerFear) / 2,/*hungerFear*/
-                    (hungerSpeed + partner.hungerSpeed) / 2);
+                    getFloatMutation((strength + partner.strength) / 2),/*strength*/
+                    getFloatMutation((speed + partner.speed) / 2),/*speed*/
+                    getFloatMutation((viewRadius + partner.viewRadius)) / 2,/*viewRadius*/
+                    getFloatMutation((this.breedingCycleSpeed + partner.breedingCycleSpeed) / 2),/*breedingCycle*/
+                    getFloatMutation((hungerFear + partner.hungerFear)) / 2,/*hungerFear*/
+                    getFloatMutation((hungerSpeed + partner.hungerSpeed)) / 2);
+           
         }
+        
   }
 }

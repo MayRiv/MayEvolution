@@ -16,6 +16,7 @@ namespace MayEvolutionModels
   {
       Draw(element:IDrawable):void;
       Clear():void;
+      CreatureNumber:int{set;}
       event TryReDraw:EventHandler[EventArgs];
   }
 }

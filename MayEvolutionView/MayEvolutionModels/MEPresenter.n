@@ -28,6 +28,7 @@ namespace MayEvolutionModels
       public Run(_:object,_:EventArgs):void
       {
           Map.Instance.ChangeWorld();
+          view.CreatureNumber = Map.Instance.Entities.Count();
           view.Clear();
           foreach(entity in Map.Instance.Entities)
               view.Draw(entity);

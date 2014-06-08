@@ -14,12 +14,24 @@ namespace MayEvolutionModels
   /// </summary>
   class Human: Creature
   {
-      public this(x:double, y:double, strength:int, speed:float, viewRadius:float,breedingCycle:int,hungerFear:float,hungerSpeed:float)
+      public this(x:double, y:double, strength:float, speed:float, viewRadius:float,breedingCycle:int,hungerFear:float,hungerSpeed:float)
       {
         base(x, y, strength, speed,viewRadius,breedingCycle,hungerFear,hungerSpeed);
       }
       override public ChangeState():void
       {
+          def moveTo = (e:Entity) => {
+            def (dx,dy) = ((e.X-this.X), (e.Y - this.Y));
+            
+            this.X+=if (Math.Abs(dx) > speed) speed*Math.Abs(dx)/dx;
+                    else dx;
+            this.Y+=if (Math.Abs(dy) > speed) speed*Math.Abs(dy)/dy;
+                    else dy;          
+          }
+          def near = (e:Entity) => {
+              Math.Sqrt(Math.Pow((this.X - e.X),2) + Math.Pow((this.Y-e.Y),2)) < speed;
+          }
+          
           if(hunger < hungerFear)
           {
               def food = findNearestFood();
@@ -27,21 +39,11 @@ namespace MayEvolutionModels
               {
                 |food is Food =>
                 {
-                    def (dx,dy) = ((food.X-this.X), (food.Y - this.Y));
+                  moveTo(food);
                 
-                
-                    this.X+=if (Math.Abs(dx) > speed) speed*Math.Abs(dx)/dx;
-                            else dx;
-                    this.Y+=if (Math.Abs(dy) > speed) speed*Math.Abs(dy)/dy;
-                            else dy;
-                
-                
-                //when(Math.Abs(foodCoordX - this.X) < 0.2 && Math.Abs(foodCoordY - this.Y) < 0.2)
+                  when(near(food))
                   {
-                         /*
-                            To be continued.
-                       */
-                      
+                     eat(food);
                   }
                 }
                 | _ => {moveSomewhere()}
@@ -49,49 +51,26 @@ namespace MayEvolutionModels
           }
           else
           {
+               match(findNearestCreature())
+               {
+                |c is Creature =>
+                {
+                    moveTo(c);
+                    when (near(c))
+                    {
+                       //Map.Instance.Entities = doSex(c)::Map.Instance.Entities;   FAIL
+                    }
+                }
+                |_ => moveSomewhere();
+               }
                moveSomewhere();
+               
           }
           hunger-=hungerSpeed;
+          this.daysFromBreeding--;
+          when(hunger <= 0) this.Dead = true;
+
       }
-      private findNearestFood():(Entity)
-      {
-          def getWhatISee = (e:Entity)=>{(Math.Abs(e.X - this.X) < this.viewRadius) && (Math.Abs(e.Y - this.Y) < this.viewRadius);};
-          def world = Map.Instance.Entities.Filter(getWhatISee);
-          def getDistance = (e1:Entity,e2:Entity)=>{Math.Sqrt(Math.Pow((e1.X - e2.X),2) + Math.Pow((e1.Y-e2.Y),2));}
-          mutable entity = null;
-          unless(world.Length == 0)
-          {
-            mutable distance = getDistance(this,world.Head);
-            entity = world.Head;
-            foreach(item in world)
-              match(item)
-              {
-                  | (item is Food) =>
-                      {
-                          def d = getDistance(this,item);
-                          when (d < distance)
-                              entity = item;
-                      }
-                      | (_) => {};
-              }  
-        }
-        entity;
-      }
-      private moveSomewhere():void
-      {
-        
-        def dx = match(Map.Instance.Randomizer.Next(2))
-                 {
-                  |0 => -1;
-                  |1 => 1;
-                 }
-        def dy = match(Map.Instance.Randomizer.Next(2))
-                 {
-                  |0 => -1;
-                  |1 => 1;
-                 }
-        this.X += speed*dx;
-        this.Y += speed*dy;
-      }
+      
   }
 }

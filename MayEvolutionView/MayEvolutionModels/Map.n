@@ -16,16 +16,31 @@ namespace MayEvolutionModels
   {
       public Randomizer:Random{get;}
       public Entities:list[Entity]{get;set;}
-      
+      public ChangeWorld():void
+      {
+         foreach(entity in Map.Instance.Entities)
+          {
+               _ = entity.ChangeState();
+          }
+          def alive = (e:Entity)=>{!e.Dead;};
+          Entities = Entities.Filter(alive); 
+          
+      }
       public Init():void
       {
-          Map.Instance.Entities = Forest(0.5f,0.7f)::Human(0.1f, 0.3f,/*coords*/
-                                                           10,/*strength*/
-                                                           0.1f,/*speed*/
-                                                           1f,/*viewRadius*/
-                                                           10,/*breedingCycle*/
+          Map.Instance.Entities = Forest(0.5f,0.7f)::Human(0.1f, 0.2f,/*coords*/
+                                                           0.8f,/*strength*/
+                                                           0.2f,/*speed*/
+                                                           7f,/*viewRadius*/
+                                                           8,/*breedingCycle*/
                                                            0.3f,/*hungerFear*/
-                                                           0.3f/*hungerSpeed*/)::[];
+                                                           0.2f/*hungerSpeed*/)::Human(0.1f, 0.3f,/*coords*/
+                                                                                       0.1f,/*strength*/
+                                                                                       0.1f,/*speed*/
+                                                                                       1f,/*viewRadius*/
+                                                                                       10,/*breedingCycle*/
+                                                                                       0.5f,/*hungerFear*/
+                                                                                       0.2f/*hungerSpeed*/)::[];
       }
       static public  Instance: Map
       {

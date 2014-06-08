@@ -18,7 +18,7 @@ namespace MayEvolutionModels
       {
             base(X,Y);
             this.B = 1.0f;
-            NutritionalValue = 10;
+            NutritionalValue = 5;
       }
   }
 }

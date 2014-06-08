@@ -15,17 +15,16 @@ namespace MayEvolutionModels
     public class Creature:Entity
     {
         protected mutable hunger:float;
-
         protected mutable health:float;
         protected mutable daysFromBreeding:int;
  
-        protected strength:int;
+        protected strength:float;
         protected speed:float;
         protected viewRadius:float;
         protected breedingCycle:int;
         protected hungerFear:float;
         protected hungerSpeed:float;
-        public this(x:double, y:double, strength:int, speed:float, viewRadius:float,breedingCycle:int,hungerFear:float,hungerSpeed:float)
+        public this(x:double, y:double, strength:float, speed:float, viewRadius:float,breedingCycle:int,hungerFear:float,hungerSpeed:float)
         {
             base(x,y);
             health = 1f;
@@ -37,5 +36,84 @@ namespace MayEvolutionModels
             this.hungerFear = hungerFear;
             this.hungerSpeed = hungerSpeed;
         }
-    }
+        protected eat(food:Food):void
+        {
+            this.hunger = 1f;   
+            food.TakeDamage(health * strength);
+        }
+        
+        protected findNearestFood():(Entity)
+        {
+          def getWhatISee = (e:Entity)=>{(Math.Abs(e.X - this.X) < this.viewRadius) && (Math.Abs(e.Y - this.Y) < this.viewRadius);};
+          def world = Map.Instance.Entities.Filter(getWhatISee);
+          def getDistance = (e1:Entity,e2:Entity)=>{Math.Sqrt(Math.Pow((e1.X - e2.X),2) + Math.Pow((e1.Y-e2.Y),2));}
+          mutable entity = null;
+          unless(world.Length == 0)
+          {
+            mutable distance = getDistance(this,world.Head);
+            entity = world.Head;
+            foreach(item in world)
+              match(item)
+              {
+                  | (item is Food) =>
+                      {
+                          def d = getDistance(this,item);
+                          when (d < distance)
+                              entity = item;
+                      }
+                      | (_) => {};
+              }  
+          }
+          entity;
+        }
+        protected findNearestCreature():(Entity)
+        {
+          def getWhatISee = (e:Entity)=>{(Math.Abs(e.X - this.X) < this.viewRadius) && (Math.Abs(e.Y - this.Y) < this.viewRadius);};
+          def world = Map.Instance.Entities.Filter(getWhatISee);
+          def getDistance = (e1:Entity,e2:Entity)=>{Math.Sqrt(Math.Pow((e1.X - e2.X),2) + Math.Pow((e1.Y-e2.Y),2));}
+          mutable entity = null;
+          unless(world.Length == 0)
+          {
+            mutable distance = getDistance(this,world.Head);
+            entity = world.Head;
+            foreach(item in world)
+              match(item)
+              {
+                  | (item is Creature) =>
+                      {
+                          def d = getDistance(this,item);
+                          when (d < distance)
+                              entity = item;
+                      }
+                      | (_) => {};
+              }  
+          }
+          entity;
+        }
+        protected moveSomewhere():void
+      {    
+        def dx = match(Map.Instance.Randomizer.Next(2))
+                 {
+                  |0 => -1;
+                  |1 => 1;
+                 }
+        def dy = match(Map.Instance.Randomizer.Next(2))
+                 {
+                  |0 => -1;
+                  |1 => 1;
+                 }
+        this.X += speed*dx;
+        this.Y += speed*dy;
+      }
+        protected doSex(partner:Creature):Creature
+        { 
+           Creature(X, Y,/*coords*/
+                    (strength + partner.strength) / 2,/*strength*/
+                    (speed + partner.speed) / 2,/*speed*/
+                    (viewRadius + partner.viewRadius) / 2,/*viewRadius*/
+                    (breedingCycle + partner.breedingCycle),/*breedingCycle*/
+                    (hungerFear + partner.hungerFear) / 2,/*hungerFear*/
+                    (hungerSpeed + partner.hungerSpeed) / 2);
+        }
+  }
 }

@@ -12,12 +12,17 @@ namespace MayEvolutionModels
   /// <summary>
   /// Description of Food.
   /// </summary>
-  class Food:Entity
+  public class Food:Entity
   {
       public NutritionalValue:int{get;protected set;}//how many times creatures can feed themselves by this food.
       public this(X:double,Y:double)
       {
           base(X,Y);
+      }
+      public TakeDamage(_:float):void
+      {
+          NutritionalValue--;
+          when (NutritionalValue == 0) Dead = true;
       }
   }
 }

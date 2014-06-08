@@ -14,61 +14,84 @@ namespace MayEvolutionModels
   /// </summary>
   class Human: Creature
   {
-      public this(x:double, y:double, strength:int, speed:float,breedingCycle:int,hungerFear:float,hungerSpeed:float)
+      public this(x:double, y:double, strength:int, speed:float, viewRadius:float,breedingCycle:int,hungerFear:float,hungerSpeed:float)
       {
-        base(x, y, strength, speed,breedingCycle,hungerFear,hungerSpeed);
+        base(x, y, strength, speed,viewRadius,breedingCycle,hungerFear,hungerSpeed);
       }
       override public ChangeState():void
       {
           if(hunger < hungerFear)
           {
-              def foodCoord = findNearestFood();
-              def (foodCoordX, foodCoordY) = foodCoord;
-              def (dx, dy) = match(foodCoord)
-                           {
-                            |(x,y) when Math.Abs(x-this.X) > Math.Abs(y-this.Y) => ((Math.Abs(x-this.X)/(x-this.X)):>float, ((this.Y- y)/Math.Abs(this.X -x)):>float);
-                            |(x,y) => (((this.X- x)/Math.Abs(this.Y -y)):>float,  (Math.Abs(y-this.Y)/(y-this.Y)):>float);
-                           }
-              this.X+=speed*dx;
-              this.Y+=speed*dy;
-              
-              
-              when(Math.Abs(foodCoordX - this.X) < 0.2 && Math.Abs(foodCoordY - this.Y) < 0.2)
+              def food = findNearestFood();
+              match(food)
+              {
+                |food is Food =>
                 {
-                       /*
+                    def (dx,dy) = ((food.X-this.X), (food.Y - this.Y));
+                
+                
+                    this.X+=if (Math.Abs(dx) > speed) speed*Math.Abs(dx)/dx;
+                            else dx;
+                    this.Y+=if (Math.Abs(dy) > speed) speed*Math.Abs(dy)/dy;
+                            else dy;
+                
+                
+                //when(Math.Abs(foodCoordX - this.X) < 0.2 && Math.Abs(foodCoordY - this.Y) < 0.2)
+                  {
+                         /*
                             To be continued.
                        */
-                    
+                      
+                  }
                 }
+                | _ => {moveSomewhere()}
+              }
           }
           else
           {
-               this.X+=speed;
-               this.Y-=speed;
+               moveSomewhere();
           }
           hunger-=hungerSpeed;
       }
-      private findNearestFood():(double*double)
+      private findNearestFood():(Entity)
       {
-          def world = Map.Instance.GetWorld();
-          
-          mutable distance = 10000000000000.0;
-          mutable coord = (1000.0,1000.0);
-          
-          foreach(item in world)
-            (distance, coord) = match(item)
-            {
-                | (x,y, _ is Food) =>
-                    {
-                        def d = Math.Sqrt(Math.Pow((this.X - x),2) + Math.Pow((this.Y-y),2));
-                        if (d < distance)
-                            (d, (x,y));
-                        else 
-                            (distance, coord);
-                        }
-                | _ => (distance, coord);
-            }
-          coord;               
+          def getWhatISee = (e:Entity)=>{(Math.Abs(e.X - this.X) < this.viewRadius) && (Math.Abs(e.Y - this.Y) < this.viewRadius);};
+          def world = Map.Instance.Entities.Filter(getWhatISee);
+          def getDistance = (e1:Entity,e2:Entity)=>{Math.Sqrt(Math.Pow((e1.X - e2.X),2) + Math.Pow((e1.Y-e2.Y),2));}
+          mutable entity = null;
+          unless(world.Length == 0)
+          {
+            mutable distance = getDistance(this,world.Head);
+            entity = world.Head;
+            foreach(item in world)
+              match(item)
+              {
+                  | (item is Food) =>
+                      {
+                          def d = getDistance(this,item);
+                          when (d < distance)
+                              entity = item;
+                      }
+                      | (_) => {};
+              }  
+        }
+        entity;
+      }
+      private moveSomewhere():void
+      {
+        
+        def dx = match(Map.Instance.Randomizer.Next(2))
+                 {
+                  |0 => -1;
+                  |1 => 1;
+                 }
+        def dy = match(Map.Instance.Randomizer.Next(2))
+                 {
+                  |0 => -1;
+                  |1 => 1;
+                 }
+        this.X += speed*dx;
+        this.Y += speed*dy;
       }
   }
 }

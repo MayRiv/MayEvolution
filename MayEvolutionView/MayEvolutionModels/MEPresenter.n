@@ -15,12 +15,12 @@ namespace MayEvolutionModels
   public class MEPresenter
   {
       view:IView;
-      mutable entities:list[Entity];
+      //mutable entities:list[Entity];
       mutable timer:Timer;
       public this(view:IView)
       {
          this.view = view;
-         entities = Forest(0.5f,0.7f)::Human(0.1f, 0.3f, 10, 0.1f, 10, 0.3f, 0.3f)::[];
+         Map.Instance.Init();
          view.TryReDraw += Run;
          
       }
@@ -28,14 +28,13 @@ namespace MayEvolutionModels
       public Run(_:object,_:EventArgs):void
       {
          
-          foreach(entity in entities)
+          foreach(entity in Map.Instance.Entities)
           {
                _ = entity.ChangeState();
           }
-          Map.Instance.Entities = entities;
-          
+      
           view.Clear();
-          foreach(entity in entities)
+          foreach(entity in Map.Instance.Entities)
               view.Draw(entity);
           
       }

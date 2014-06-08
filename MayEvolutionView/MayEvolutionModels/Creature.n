@@ -21,15 +21,16 @@ namespace MayEvolutionModels
  
         protected strength:int;
         protected speed:float;
+        protected viewRadius:float;
         protected breedingCycle:int;
         protected hungerFear:float;
         protected hungerSpeed:float;
-        public this(x:double, y:double, strength:int, speed:float,breedingCycle:int,hungerFear:float,hungerSpeed:float)
+        public this(x:double, y:double, strength:int, speed:float, viewRadius:float,breedingCycle:int,hungerFear:float,hungerSpeed:float)
         {
             base(x,y);
             health = 1f;
             hunger = 1f;
-            
+            this.viewRadius = viewRadius;
             this.strength = strength;
             this.speed = speed;
             this.breedingCycle = breedingCycle;

@@ -14,6 +14,19 @@ namespace MayEvolutionModels
   /// </summary>
   class Map
   {
+      public Randomizer:Random{get;}
+      public Entities:list[Entity]{get;set;}
+      
+      public Init():void
+      {
+          Map.Instance.Entities = Forest(0.5f,0.7f)::Human(0.1f, 0.3f,/*coords*/
+                                                           10,/*strength*/
+                                                           0.1f,/*speed*/
+                                                           1f,/*viewRadius*/
+                                                           10,/*breedingCycle*/
+                                                           0.3f,/*hungerFear*/
+                                                           0.3f/*hungerSpeed*/)::[];
+      }
       static public  Instance: Map
       {
          get
@@ -22,21 +35,11 @@ namespace MayEvolutionModels
              instance;
          }
       }
-  
+        
       private this()
       {
-          
+          this.Randomizer = Random();
       }
-      public GetWorld():list[(double*double*Entity)] 
-      {
-            mutable world;
-            foreach(entity in Entities)
-            {
-                world =  (entity.X, entity.Y, entity)::world;
-            }
-            world;
-      }
-      public Entities:list[Entity]{get;set;}
       static private mutable instance:Map;
   }
 }

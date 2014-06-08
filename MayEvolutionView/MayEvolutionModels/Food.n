@@ -19,10 +19,14 @@ namespace MayEvolutionModels
       {
           base(X,Y);
       }
-      public TakeDamage(_:float):void
+      public override TakeDamage(_:float):bool
       {
           NutritionalValue--;
           when (NutritionalValue == 0) Dead = true;
+          true;
+      }
+      public override ChangeState():void
+      {   
       }
   }
 }

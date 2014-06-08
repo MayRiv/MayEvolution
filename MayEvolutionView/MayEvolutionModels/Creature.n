@@ -25,9 +25,9 @@ namespace MayEvolutionModels
         public hungerFear:float;
         public hungerSpeed:float;
         
-        public this(x:double, y:double, strength:float, speed:float, viewRadius:float,breedingCycleSpeed:float,hungerFear:float,hungerSpeed:float)
+        public this(x:double, y:double, strength:float, speed:float, viewRadius:float,breedingCycleSpeed:float,hungerFear:float,hungerSpeed:float,r=1.0f:float, g=0f:float, b=0f:float)
         {
-            base(x,y);
+            base(x,y,r,g,b);
             health = 1f;
             hunger = 1f;
             daysToBreeding = 1f;
@@ -48,9 +48,10 @@ namespace MayEvolutionModels
             this.Y+=if (Math.Abs(dy) > speed) speed*Math.Abs(dy)/dy;
                     else dy;          
           }
-          def near = (e:Entity) => {
+          def isTouching = (e:Entity) => {
               Math.Sqrt(Math.Pow((this.X - e.X),2) + Math.Pow((this.Y-e.Y),2)) < speed;
           }
+          def getWhatISee = (e:Entity)=>{(Math.Abs(e.X - this.X) < this.viewRadius) && (Math.Abs(e.Y - this.Y) < this.viewRadius)};
           
           if(hunger < hungerFear)
           {
@@ -61,7 +62,7 @@ namespace MayEvolutionModels
                 {
                   moveTo(food);
                 
-                  when(near(food))
+                  when(isTouching(food))
                   {
                      eat(food);
                   }
@@ -76,73 +77,115 @@ namespace MayEvolutionModels
                 |c is Creature =>
                 {
                     moveTo(c);
-                    when (near(c) && this.daysToBreeding < 0)
+                    when (isTouching(c))
                     {
-                       when (c.daysToBreeding < 0)
-                        Map.Instance.Entities = doSex(c)::Map.Instance.Entities;
+                       def boundary = 0.1;
+                       if (Math.Abs(this.R - c.R) < boundary &&
+                           Math.Abs(this.G - c.G) < boundary &&
+                           Math.Abs(this.B - c.B) < boundary)
+                             when (c.daysToBreeding < 0 && this.daysToBreeding < 0)
+                                Map.Instance.Entities = doSex(c)::Map.Instance.Entities;
+                        else
+                            eat(c);
                     }
                 }
                 |_ => moveSomewhere();
                }
-               moveSomewhere();
-               
-          }
+               moveSomewhere();  
+           }
+          //def getFoodISee = (e:Entity, f:Entity->bool)=>{f(e) && e is Food;};
+          //def boundary = 0.1;
+          //def isSameColour = (e:Entity)=>{Math.Abs(this.R - e.R) < boundary && Math.Abs(this.G - e.G) < boundary && Math.Abs(this.B - e.B) < boundary;};
+          //def getEnemyISee = (e:Entity, f:Entity->bool)=>{f(e) && e is Creature && !isSameColour(e);};
+          //def getFriendISee = (e:Entity, f:Entity->bool)=>{f(e) && e is Creature && isSameColour(e);};
+          
+          //def enemies = Map.Instance.Entities.Filter(getEnemyISee(_,getWhatISee));
+          //if (enemies.Length == 0)
+          //{
+          //   if (hunger < hungerFear)
+          //   {
+          //      def foodList = Map.Instance.Entities.Filter(getFoodISee(_,getWhatISee)); 
+          //      if (foodList.Length != 0)
+          //          {
+          //              def food = findNearest(foodList);
+          //              moveTo(food);
+          //              when (isTouching(food))
+          //                  eat(food);
+          //          }
+          //       else moveSomewhere();
+          //   }
+          //   else
+          //   {
+          //       def friends = Map.Instance.Entities.Filter(getFriendISee(_,getWhatISee));
+          //       if (friends.Length != 0)
+          //       {
+          //           def friend = findNearest(friends);   
+                     
+          //           if ((friend:>Creature).daysToBreeding < 0 && this.daysToBreeding < 0 )
+          //           {
+          //               moveTo(friend);
+          //               when(isTouching(friend))
+          //                  Map.Instance.Entities = doSex(friend:>Creature)::Map.Instance.Entities;
+          //           }
+          //           else moveSomewhere();
+          //       }
+          //       else moveSomewhere();
+          //   }
+          //}
+          //else
+          //{
+          //    def enemy = findNearest(enemies);   
+          //    moveTo(enemy);
+          //    when(isTouching(enemy))
+          //      eat(enemy);
+          //}
+          
+          
+          
           hunger-=Math.Abs(hungerSpeed);
           when (this.daysToBreeding >= 0) this.daysToBreeding-= Math.Abs(this.breedingCycleSpeed);
           when(hunger <= 0) this.Dead = true;
 
         }
-        protected eat(food:Food):void
+        protected eat(food:Entity):void
         {
-            this.hunger = 1f;   
-            food.TakeDamage(health * strength);
+               
+            when(food.TakeDamage(health * strength))
+                this.hunger = 1f;
         }
         
+        public override TakeDamage(damage:float):bool
+        {
+          health-= damage;
+          when (health <= 0) Dead = true;
+          Dead;
+        }
         protected findNearestFood():(Entity)
         {
-          def getWhatISee = (e:Entity)=>{(Math.Abs(e.X - this.X) < this.viewRadius) && (Math.Abs(e.Y - this.Y) < this.viewRadius);};
-          def world = Map.Instance.Entities.Filter(getWhatISee);
-          def getDistance = (e1:Entity,e2:Entity)=>{Math.Sqrt(Math.Pow((e1.X - e2.X),2) + Math.Pow((e1.Y-e2.Y),2));}
-          mutable entity = null;
-          unless(world.Length == 0)
-          {
-            mutable distance = getDistance(this,world.Head);
-            entity = world.Head;
-            foreach(item in world)
-              match(item)
-              {
-                  | (item is Food) =>
-                      {
-                          def d = getDistance(this,item);
-                          when (d < distance)
-                              entity = item;
-                      }
-                  | (_) => {};
-              }  
-          }
-          entity;
+          def getFoodISee = (e:Entity)=>{(Math.Abs(e.X - this.X) < this.viewRadius) && (Math.Abs(e.Y - this.Y) < this.viewRadius) && e is Food;};
+          def world = Map.Instance.Entities.Filter(getFoodISee);
+          findNearest(world);
         }
         protected findNearestCreature():(Entity)
         {
-          def getWhatISee = (e:Entity)=>{(Math.Abs(e.X - this.X) < this.viewRadius) && (Math.Abs(e.Y - this.Y) < this.viewRadius);};
-          def world = Map.Instance.Entities.Filter(getWhatISee);
+          def getCreatureISee = (e:Entity)=>{(Math.Abs(e.X - this.X) < this.viewRadius) && (Math.Abs(e.Y - this.Y) < this.viewRadius) && e is Creature;};
+          def world = Map.Instance.Entities.Filter(getCreatureISee);
+          findNearest(world);
+        }
+        protected findNearest(l:list[Entity]):Entity
+        {
           def getDistance = (e1:Entity,e2:Entity)=>{Math.Sqrt(Math.Pow((e1.X - e2.X),2) + Math.Pow((e1.Y-e2.Y),2));}
           mutable entity = null;
-          unless(world.Length == 0)
+          unless(l.Length == 0)
           {
-            mutable distance = getDistance(this,world.Head);
-            entity = world.Head;
-            foreach(item in world)
-              match(item)
-              {
-                  | (item is Creature) =>
-                      {
-                          def d = getDistance(this,item);
-                          when (d < distance)
-                              entity = item;
-                      }
-                  | (_) => {};
-              }  
+            mutable distance = getDistance(this,l.Head);
+            entity = l.Head;
+            foreach(item in l)
+            {
+                def d = getDistance(this,item);
+                when (d < distance)
+                    entity = item;
+            }
           }
           entity;
         }
@@ -168,8 +211,8 @@ namespace MayEvolutionModels
            partner.daysToBreeding = 1f;
            def getMutation = (value:float)=>{match(Map.Instance.Randomizer.Next(2))
                  {
-                  |0 => (value -0.05):>float;
-                  |1 => (value +0.05):>float;
+                  |0 => (value -0.00):>float;
+                  |1 => (value +0.00):>float;
                  }}
            Creature(X, Y,/*coords*/
                     getMutation((strength + partner.strength) / 2),/*strength*/
@@ -177,7 +220,10 @@ namespace MayEvolutionModels
                     getMutation((viewRadius + partner.viewRadius)) / 2,/*viewRadius*/
                     getMutation((this.breedingCycleSpeed + partner.breedingCycleSpeed) / 2),/*breedingCycle*/
                     getMutation((hungerFear + partner.hungerFear)) / 2,/*hungerFear*/
-                    getMutation((hungerSpeed + partner.hungerSpeed)) / 2);
+                    getMutation((hungerSpeed + partner.hungerSpeed)) / 2,
+                    getMutation((R + partner.R / 2 )),
+                    getMutation((G + partner.G / 2 )),
+                    getMutation((B + partner.B / 2 )));
            
         }
         

@@ -33,19 +33,33 @@ namespace MayEvolutionModels
       }
       public Init():void
       {
-          Map.Instance.Entities = Forest(0.5f,0.7f)::Creature(0.1f, 0.2f,/*coords*/
+          Map.Instance.Entities = Forest(-1.5f,-0.4f)::Creature(-1.4f, -0.5f,/*coords*/
                                                            0.8f,/*strength*/
                                                            0.15f,/*speed*/
                                                            2f,/*viewRadius*/
                                                            0.15f,/*breedingCycleSpeed*/
                                                            0.2f,/*hungerFear*/
-                                                           0.2f/*hungerSpeed*/)::Creature(0.2f, 0.3f,/*coords*/
+                                                           0.2f/*hungerSpeed*/)::Creature(-1.4f, -0.3f,/*coords*/
                                                                                        0.1f,/*strength*/
                                                                                        0.1f,/*speed*/
-                                                                                       1f,/*viewRadius*/
+                                                                                       1.5f,/*viewRadius*/
                                                                                        0.2f,/*breedingCycleSpeed*/
                                                                                        0.7f,/*hungerFear*/
                                                                                        0.1f/*hungerSpeed*/)::[];
+                                                                                       
+         Map.Instance.Entities = Forest(1.9f,0.8f)::Creature(1.9f, 0.9f,/*coords*/
+                                                           0.8f,/*strength*/
+                                                           0.2f,/*speed*/
+                                                           1f,/*viewRadius*/
+                                                           0.15f,/*breedingCycleSpeed*/
+                                                           0.4f,/*hungerFear*/
+                                                           0.1f/*hungerSpeed*/,0,0,1)::Creature(1.8f, 0.8f,/*coords*/
+                                                                                       0.1f,/*strength*/
+                                                                                       0.15f,/*speed*/
+                                                                                       1.2f,/*viewRadius*/
+                                                                                       0.2f,/*breedingCycleSpeed*/
+                                                                                       0.6f,/*hungerFear*/
+                                                                                       0.12f/*hungerSpeed*/,0,0,1)::Entities;
       }
       static public  Instance: Map
       {

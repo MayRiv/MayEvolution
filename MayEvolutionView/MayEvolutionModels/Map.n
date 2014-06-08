@@ -35,16 +35,16 @@ namespace MayEvolutionModels
       {
           Map.Instance.Entities = Forest(0.5f,0.7f)::Creature(0.1f, 0.2f,/*coords*/
                                                            0.8f,/*strength*/
-                                                           0.2f,/*speed*/
-                                                           7f,/*viewRadius*/
+                                                           0.15f,/*speed*/
+                                                           2f,/*viewRadius*/
                                                            0.15f,/*breedingCycleSpeed*/
                                                            0.2f,/*hungerFear*/
-                                                           0.1f/*hungerSpeed*/)::Creature(0.2f, 0.3f,/*coords*/
+                                                           0.2f/*hungerSpeed*/)::Creature(0.2f, 0.3f,/*coords*/
                                                                                        0.1f,/*strength*/
                                                                                        0.1f,/*speed*/
                                                                                        1f,/*viewRadius*/
                                                                                        0.2f,/*breedingCycleSpeed*/
-                                                                                       0.5f,/*hungerFear*/
+                                                                                       0.7f,/*hungerFear*/
                                                                                        0.1f/*hungerSpeed*/)::[];
       }
       static public  Instance: Map

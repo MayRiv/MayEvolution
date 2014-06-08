@@ -33,6 +33,11 @@
             this.button1 = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.creaturesLabel = new System.Windows.Forms.Label();
+            this.speedLabel = new System.Windows.Forms.Label();
+            this.hFearLabel = new System.Windows.Forms.Label();
+            this.hSpeedLabel = new System.Windows.Forms.Label();
+            this.cycleLabel = new System.Windows.Forms.Label();
+            this.viewLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // AnT
@@ -47,7 +52,7 @@
             this.AnT.BackColor = System.Drawing.Color.Black;
             this.AnT.ColorBits = ((byte)(32));
             this.AnT.DepthBits = ((byte)(16));
-            this.AnT.Location = new System.Drawing.Point(13, 13);
+            this.AnT.Location = new System.Drawing.Point(12, 12);
             this.AnT.Name = "AnT";
             this.AnT.Size = new System.Drawing.Size(856, 546);
             this.AnT.StencilBits = ((byte)(0));
@@ -72,11 +77,61 @@
             this.creaturesLabel.Size = new System.Drawing.Size(0, 13);
             this.creaturesLabel.TabIndex = 2;
             // 
+            // speedLabel
+            // 
+            this.speedLabel.AutoSize = true;
+            this.speedLabel.Location = new System.Drawing.Point(879, 64);
+            this.speedLabel.Name = "speedLabel";
+            this.speedLabel.Size = new System.Drawing.Size(41, 13);
+            this.speedLabel.TabIndex = 3;
+            this.speedLabel.Text = "Speed:";
+            // 
+            // hFearLabel
+            // 
+            this.hFearLabel.AutoSize = true;
+            this.hFearLabel.Location = new System.Drawing.Point(879, 77);
+            this.hFearLabel.Name = "hFearLabel";
+            this.hFearLabel.Size = new System.Drawing.Size(66, 13);
+            this.hFearLabel.TabIndex = 4;
+            this.hFearLabel.Text = "HungerFear:";
+            // 
+            // hSpeedLabel
+            // 
+            this.hSpeedLabel.AutoSize = true;
+            this.hSpeedLabel.Location = new System.Drawing.Point(879, 90);
+            this.hSpeedLabel.Name = "hSpeedLabel";
+            this.hSpeedLabel.Size = new System.Drawing.Size(76, 13);
+            this.hSpeedLabel.TabIndex = 5;
+            this.hSpeedLabel.Text = "HungerSpeed:";
+            // 
+            // cycleLabel
+            // 
+            this.cycleLabel.AutoSize = true;
+            this.cycleLabel.Location = new System.Drawing.Point(879, 103);
+            this.cycleLabel.Name = "cycleLabel";
+            this.cycleLabel.Size = new System.Drawing.Size(67, 13);
+            this.cycleLabel.TabIndex = 6;
+            this.cycleLabel.Text = "CycleSpeed:";
+            // 
+            // viewLabel
+            // 
+            this.viewLabel.AutoSize = true;
+            this.viewLabel.Location = new System.Drawing.Point(879, 116);
+            this.viewLabel.Name = "viewLabel";
+            this.viewLabel.Size = new System.Drawing.Size(66, 13);
+            this.viewLabel.TabIndex = 16;
+            this.viewLabel.Text = "ViewRadius:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(962, 571);
+            this.Controls.Add(this.viewLabel);
+            this.Controls.Add(this.cycleLabel);
+            this.Controls.Add(this.hSpeedLabel);
+            this.Controls.Add(this.hFearLabel);
+            this.Controls.Add(this.speedLabel);
             this.Controls.Add(this.creaturesLabel);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.AnT);
@@ -93,6 +148,11 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label creaturesLabel;
+        private System.Windows.Forms.Label speedLabel;
+        private System.Windows.Forms.Label hFearLabel;
+        private System.Windows.Forms.Label hSpeedLabel;
+        private System.Windows.Forms.Label cycleLabel;
+        private System.Windows.Forms.Label viewLabel;
     }
 }
 

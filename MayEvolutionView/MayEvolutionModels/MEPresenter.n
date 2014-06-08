@@ -30,8 +30,26 @@ namespace MayEvolutionModels
           Map.Instance.ChangeWorld();
           view.CreatureNumber = Map.Instance.Entities.Count();
           view.Clear();
+          findCreature(Map.Instance.Entities);
+          
           foreach(entity in Map.Instance.Entities)
               view.Draw(entity);
       }
+      private findCreature (l:list[Entity]):void
+          {
+             if (l.Head is Creature)
+                {
+                    def creature = l.Head:>Creature;
+                    view.BreedingCycleSpeed = creature.breedingCycleSpeed;
+                    view.HungerFear = creature.hungerFear;
+                    view.HungerSpeed = creature.hungerSpeed;
+                    view.Speed = creature.speed;
+                    view.ViewRadius = creature.viewRadius;
+                    
+                }
+                else when (l.Count() != 0)
+                    findCreature(l.Tail);
+          }
+          
   }
 }

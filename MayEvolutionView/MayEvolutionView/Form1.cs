@@ -57,6 +57,41 @@ namespace MayEvolutionView
                 creaturesLabel.Text = value.ToString();
             }
         }
+        public float Speed
+        {
+            set
+            {
+                speedLabel.Text = "Speed:" + value.ToString();
+            }
+        }
+        public float HungerFear
+        {
+            set
+            {
+                hFearLabel.Text = "HungerFear:" + value.ToString();
+            }
+        }
+        public float HungerSpeed
+        {
+            set
+            {
+                hSpeedLabel.Text = "HungerSpeed:" + value.ToString();
+            }
+        }
+        public float BreedingCycleSpeed
+        {
+            set
+            {
+                cycleLabel.Text = "CycleSpeed:" + value.ToString();
+            }
+        }
+        public float ViewRadius
+        {
+            set
+            {
+                viewLabel.Text = "ViewRadius:" + value.ToString();
+            }
+        }
         public event EventHandler<EventArgs> TryReDraw;
         public void Clear()
         {

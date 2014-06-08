@@ -18,12 +18,12 @@ namespace MayEvolutionModels
         protected mutable health:float;
         protected mutable daysToBreeding:float;
  
-        protected strength:float;
-        protected speed:float;
-        protected viewRadius:float;
-        protected breedingCycleSpeed:float;
-        protected hungerFear:float;
-        protected hungerSpeed:float;
+        public strength:float;
+        public speed:float;
+        public viewRadius:float;
+        public breedingCycleSpeed:float;
+        public hungerFear:float;
+        public hungerSpeed:float;
         
         public this(x:double, y:double, strength:float, speed:float, viewRadius:float,breedingCycleSpeed:float,hungerFear:float,hungerSpeed:float)
         {
@@ -87,8 +87,8 @@ namespace MayEvolutionModels
                moveSomewhere();
                
           }
-          hunger-=hungerSpeed;
-          when (this.daysToBreeding >= 0) this.daysToBreeding-= this.breedingCycleSpeed;
+          hunger-=Math.Abs(hungerSpeed);
+          when (this.daysToBreeding >= 0) this.daysToBreeding-= Math.Abs(this.breedingCycleSpeed);
           when(hunger <= 0) this.Dead = true;
 
         }
@@ -166,18 +166,18 @@ namespace MayEvolutionModels
            
            this.daysToBreeding = 1f;
            partner.daysToBreeding = 1f;
-           def getFloatMutation = (value:float)=>{match(Map.Instance.Randomizer.Next(2))
+           def getMutation = (value:float)=>{match(Map.Instance.Randomizer.Next(2))
                  {
-                  |0 => (value -0.1):>float;
-                  |1 => (value +0.1):>float;
+                  |0 => (value -0.05):>float;
+                  |1 => (value +0.05):>float;
                  }}
            Creature(X, Y,/*coords*/
-                    getFloatMutation((strength + partner.strength) / 2),/*strength*/
-                    getFloatMutation((speed + partner.speed) / 2),/*speed*/
-                    getFloatMutation((viewRadius + partner.viewRadius)) / 2,/*viewRadius*/
-                    getFloatMutation((this.breedingCycleSpeed + partner.breedingCycleSpeed) / 2),/*breedingCycle*/
-                    getFloatMutation((hungerFear + partner.hungerFear)) / 2,/*hungerFear*/
-                    getFloatMutation((hungerSpeed + partner.hungerSpeed)) / 2);
+                    getMutation((strength + partner.strength) / 2),/*strength*/
+                    getMutation((speed + partner.speed) / 2),/*speed*/
+                    getMutation((viewRadius + partner.viewRadius)) / 2,/*viewRadius*/
+                    getMutation((this.breedingCycleSpeed + partner.breedingCycleSpeed) / 2),/*breedingCycle*/
+                    getMutation((hungerFear + partner.hungerFear)) / 2,/*hungerFear*/
+                    getMutation((hungerSpeed + partner.hungerSpeed)) / 2);
            
         }
         

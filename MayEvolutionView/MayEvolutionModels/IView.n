@@ -17,6 +17,11 @@ namespace MayEvolutionModels
       Draw(element:IDrawable):void;
       Clear():void;
       CreatureNumber:int{set;}
+      Speed:float{set;}
+      HungerFear:float{set;}
+      HungerSpeed:float{set;}
+      BreedingCycleSpeed:float{set;}
+      ViewRadius:float{set;}
       event TryReDraw:EventHandler[EventArgs];
   }
 }

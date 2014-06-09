@@ -14,7 +14,7 @@ namespace MayEvolutionModels
   /// </summary>
   public class Food:Entity
   {
-      public NutritionalValue:float{get;protected set;}//how many times creatures can feed themselves by this food.
+      public NutritionalValue:int{get;protected set;}//how many times creatures can feed themselves by this food.
       public this(X:double,Y:double)
       {
           base(X,Y);
@@ -27,7 +27,6 @@ namespace MayEvolutionModels
       }
       public override ChangeState():void
       {   
-        NutritionalValue-= 0.1f;
         when (NutritionalValue <= 0) Dead = true;
           
       }

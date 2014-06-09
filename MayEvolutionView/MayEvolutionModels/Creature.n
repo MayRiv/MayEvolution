@@ -52,47 +52,6 @@ namespace MayEvolutionModels
               Math.Sqrt(Math.Pow((this.X - e.X),2) + Math.Pow((this.Y-e.Y),2)) < speed;
           }
           def getWhatISee = (e:Entity)=>{(Math.Abs(e.X - this.X) < this.viewRadius) && (Math.Abs(e.Y - this.Y) < this.viewRadius)};
-          
-          //if(hunger < hungerFear)
-          //{
-          //    def food = findNearestFood();
-          //    match(food)
-          //    {
-          //      |food is Food =>
-          //      {
-          //        moveTo(food);
-                
-          //        when(isTouching(food))
-          //        {
-          //           eat(food);
-          //        }
-          //      }
-          //      | _ => {moveSomewhere()}
-          //    }
-          //}
-          //else
-          //{
-          //     match(findNearestCreature())
-          //     {
-          //      |c is Creature =>
-          //      {
-          //          moveTo(c);
-          //          when (isTouching(c))
-          //          {
-          //             def boundary = 0.1;
-          //             if (Math.Abs(this.R - c.R) < boundary &&
-          //                 Math.Abs(this.G - c.G) < boundary &&
-          //                 Math.Abs(this.B - c.B) < boundary)
-          //                   when (c.daysToBreeding < 0 && this.daysToBreeding < 0)
-          //                      Map.Instance.Entities = doSex(c)::Map.Instance.Entities;
-          //              else
-          //                  eat(c);
-          //          }
-          //      }
-          //      |_ => moveSomewhere();
-          //     }
-          //     moveSomewhere();  
-          // }
           def getFoodISee = (e:Entity, f:Entity->bool)=>{f(e) && e is Food;};
           def boundary = 0.1;
           def isSameColour = (e:Entity)=>{Math.Abs(this.R - e.R) < boundary && Math.Abs(this.G - e.G) < boundary && Math.Abs(this.B - e.B) < boundary;};
@@ -211,8 +170,8 @@ namespace MayEvolutionModels
            partner.daysToBreeding = 1f;
            def getMutation = (value:float)=>{match(Map.Instance.Randomizer.Next(2))
                  {
-                  |0 => (value -0.00):>float;
-                  |1 => (value +0.00):>float;
+                  |0 => (value -0.05):>float;
+                  |1 => (value +0.05):>float;
                  }}
            Creature(X, Y,/*coords*/
                     getMutation((strength + partner.strength) / 2),/*strength*/

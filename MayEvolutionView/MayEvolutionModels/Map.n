@@ -28,50 +28,77 @@ namespace MayEvolutionModels
           }
           def alive = (e:Entity)=>{!e.Dead;};
           Entities = Entities.Filter(alive);
-          
-          
+                    
       }
       public Init():void
       {
-          Map.Instance.Entities = Forest(-1.5f,-0.4f)::Creature(-1.2f, -0.5f,/*coords*/
-                                                           0.3f,/*strength*/
-                                                           0.2f,/*speed*/
-                                                           1.5f,/*viewRadius*/
-                                                           0.15f,/*breedingCycleSpeed*/
-                                                           0.6f,/*hungerFear*/
-                                                           0.1f/*hungerSpeed*/)::Creature(-1.4f, -0.5f,/*coords*/
-                                                                                          0.2f,/*strength*/
-                                                                                          0.15f,/*speed*/
-                                                                                          2f,/*viewRadius*/
-                                                                                          0.15f,/*breedingCycleSpeed*/
-                                                                                          0.2f,/*hungerFear*/
-                                                                                          0.2f/*hungerSpeed*/)::Creature(-1.4f, -0.3f,/*coords*/
-                                                                                                                      0.1f,/*strength*/
-                                                                                                                      0.1f,/*speed*/
-                                                                                                                      1.5f,/*viewRadius*/
-                                                                                                                      0.2f,/*breedingCycleSpeed*/
-                                                                                                                      0.7f,/*hungerFear*/
-                                                                                                                      0.1f/*hungerSpeed*/)::[];
+          def strength = 0.3f;
+          def speed = 0.2f;
+          def view = 1.5f;
+          def breedingCycleSpeed = 0.15f;
+          def hungerFear = 0.4f;
+          def hungerSpeed = 0.05f;
+          def createCreature = (x:float, y:float, r:float,g:float,b:float)=>{Creature(x,y,strength,speed,view,breedingCycleSpeed,hungerFear,hungerSpeed,r,g,b);};
+          Map.Instance.Entities = Forest(-2.0f,0f)::createCreature(-2.0f,0f,1,0,0)::createCreature(-2.2f,0f,1,0,0)::[];
+          Map.Instance.Entities = Forest(2.0f,0f)::createCreature(2.0f,0f,0,0,1)::createCreature(2.2f,0f,0,0,1)::Entities;
+          //  Map.Instance.Entities = Forest(-1.5f,-0.4f)::Creature(-1.2f, -0.5f,/*coords*/
+        //                                                   0.3f,/*strength*/
+        //                                                   0.2f,/*speed*/
+        //                                                   1.5f,/*viewRadius*/
+        //                                                   0.15f,/*breedingCycleSpeed*/
+        //                                                   0.3f,/*hungerFear*/
+        //                                                   0.1f/*hungerSpeed*/)::Creature(-1.4f, -0.5f,/*coords*/
+        //                                                                                  0.2f,/*strength*/
+        //                                                                                  0.15f,/*speed*/
+        //                                                                                  2f,/*viewRadius*/
+        //                                                                                  0.15f,/*breedingCycleSpeed*/
+        //                                                                                  0.2f,/*hungerFear*/
+        //                                                                                  0.2f/*hungerSpeed*/)::Creature(-1.4f, -0.3f,/*coords*/
+        //                                                                                                              0.1f,/*strength*/
+        //                                                                                                              0.1f,/*speed*/
+        //                                                                                                              1.5f,/*viewRadius*/
+        //                                                                                                              0.2f,/*breedingCycleSpeed*/
+        //                                                                                                              0.7f,/*hungerFear*/
+        //                                                                                                              0.1f/*hungerSpeed*/)::[];
                                                                                        
-         Map.Instance.Entities = Forest(1.9f,0.8f)::Creature(1.5f, 0.9f,/*coords*/
-                                                           0.2f,/*strength*/
-                                                           0.25f,/*speed*/
-                                                           1.5f,/*viewRadius*/
-                                                           0.15f,/*breedingCycleSpeed*/
-                                                           0.5f,/*hungerFear*/
-                                                           0.1f/*hungerSpeed*/,0,0,1)::Creature(1.9f, 0.9f,/*coords*/
-                                                                                                0.2f,/*strength*/
-                                                                                                0.2f,/*speed*/
-                                                                                                1f,/*viewRadius*/
-                                                                                                0.15f,/*breedingCycleSpeed*/
-                                                                                                0.4f,/*hungerFear*/
-                                                                                                0.1f/*hungerSpeed*/,0,0,1)::Creature(1.8f, 0.8f,/*coords*/
-                                                                                                                            0.1f,/*strength*/
-                                                                                                                            0.15f,/*speed*/
-                                                                                                                            1.2f,/*viewRadius*/
-                                                                                                                            0.2f,/*breedingCycleSpeed*/
-                                                                                                                            0.6f,/*hungerFear*/
-                                                                                                                            0.12f/*hungerSpeed*/,0,0,1)::Entities;
+        // Map.Instance.Entities = Forest(1.9f,1.2f)::Creature(1.5f, 1.3f,/*coords*/
+        //                                                   0.2f,/*strength*/
+        //                                                   0.25f,/*speed*/
+        //                                                   1.5f,/*viewRadius*/
+        //                                                   0.15f,/*breedingCycleSpeed*/
+        //                                                   0.5f,/*hungerFear*/
+        //                                                   0.1f/*hungerSpeed*/,0,0,1)::Creature(1.9f, 1.3f,/*coords*/
+        //                                                                                        0.2f,/*strength*/
+        //                                                                                        0.2f,/*speed*/
+        //                                                                                        1f,/*viewRadius*/
+        //                                                                                        0.15f,/*breedingCycleSpeed*/
+        //                                                                                        0.4f,/*hungerFear*/
+        //                                                                                        0.1f/*hungerSpeed*/,0,0,1)::Creature(1.8f, 1.2f,/*coords*/
+        //                                                                                                                    0.1f,/*strength*/
+        //                                                                                                                    0.15f,/*speed*/
+        //                                                                                                                    1.2f,/*viewRadius*/
+        //                                                                                                                    0.2f,/*breedingCycleSpeed*/
+        //                                                                                                                    0.6f,/*hungerFear*/
+        //                                                                                                                    0.12f/*hungerSpeed*/,0,0,1)::Entities;
+        //Map.Instance.Entities = Forest(1.4f,-1.4f)::Creature(1.4f, -1.5f,/*coords*/
+        //                                                   0.2f,/*strength*/
+        //                                                   0.25f,/*speed*/
+        //                                                   1.5f,/*viewRadius*/
+        //                                                   0.15f,/*breedingCycleSpeed*/
+        //                                                   0.5f,/*hungerFear*/
+        //                                                   0.1f/*hungerSpeed*/,0,1,0)::Creature(1.3f, -1.5f,/*coords*/
+        //                                                                                        0.2f,/*strength*/
+        //                                                                                        0.2f,/*speed*/
+        //                                                                                        1f,/*viewRadius*/
+        //                                                                                        0.15f,/*breedingCycleSpeed*/
+        //                                                                                        0.4f,/*hungerFear*/
+        //                                                                                        0.1f/*hungerSpeed*/,0,1,0)::Creature(1.5f, -1.5f,/*coords*/
+        //                                                                                                                    0.1f,/*strength*/
+        //                                                                                                                    0.15f,/*speed*/
+        //                                                                                                                    1.2f,/*viewRadius*/
+        //                                                                                                                    0.2f,/*breedingCycleSpeed*/
+        //                                                                                                                    0.6f,/*hungerFear*/
+        //                                                                                                                    0.12f/*hungerSpeed*/,0,1,0)::Entities;                                                                                                                    
       }
       static public  Instance: Map
       {
@@ -81,7 +108,7 @@ namespace MayEvolutionModels
              instance;
          }
       }
-        
+         
       private this()
       {
           this.Randomizer = Random();

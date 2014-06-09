@@ -58,6 +58,7 @@ namespace MayEvolutionModels
           def getEnemyISee = (e:Entity, f:Entity->bool)=>{f(e) && e is Creature && !e.Equals(this) && !isSameColour(e);};
           def getFriendISee = (e:Entity, f:Entity->bool)=>{f(e) && e is Creature && !e.Equals(this) && isSameColour(e);};
           
+ 
           def enemies = Map.Instance.Entities.Filter(getEnemyISee(_,getWhatISee));
           if (enemies.Length == 0)
           {
@@ -162,6 +163,8 @@ namespace MayEvolutionModels
                  }
         this.X += speed*dx;
         this.Y += speed*dy;
+        
+        
       }
         protected doSex(partner:Creature):Creature
         { 
@@ -183,7 +186,6 @@ namespace MayEvolutionModels
                     getMutation((R + partner.R  )/ 2),
                     getMutation((G + partner.G  )/ 2),
                     getMutation((B + partner.B  )/ 2));
-           
         }
         
   }

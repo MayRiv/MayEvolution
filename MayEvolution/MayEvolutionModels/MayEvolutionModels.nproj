@@ -68,7 +68,10 @@
     <Compile Include="Food.n">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Forest.n">
+    <Compile Include="Carrion.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FruitTree.n">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="IDrawable.n">

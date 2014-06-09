@@ -1,0 +1,39 @@
+﻿using Nemerle;
+using Nemerle.Collections;
+using Nemerle.Text;
+using Nemerle.Utility;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace MayEvolutionModels
+{
+  /// <summary>
+  /// Description of FruitTree.
+  /// </summary>
+  class FruitTree:Food
+  {
+      mutable daysToDivide:int;
+      public this(X:double,Y:double)
+      {
+          
+            base(X,Y);
+            this.B = 1f;
+            this.R = 1f;
+            this.G = 0f;
+            NutritionalValue = 5;
+            daysToDivide = 40;
+      }
+      public override ChangeState():void
+      {
+            when (NutritionalValue <= 0) Dead = true;
+            daysToDivide--;
+            when (daysToDivide <= 0)
+            {
+               Map.Instance.Entities = FruitTree(X + 0.1,Y)::FruitTree(X - 0.1,Y)::Map.Instance.Entities;
+               this.Dead = true;
+            }
+      }
+  }
+}

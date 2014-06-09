@@ -12,13 +12,15 @@ namespace MayEvolutionModels
   /// <summary>
   /// Description of Forest.
   /// </summary>
-  class Forest:Food
+  class Carrion:Food
   {
       public this(X:double,Y:double)
       {
             base(X,Y);
-            this.B = 1.0f;
-            NutritionalValue = 5f;
+            this.B = 0f;
+            this.R = 0f;
+            this.G = 0f;
+            NutritionalValue = 3;
       }
   }
 }

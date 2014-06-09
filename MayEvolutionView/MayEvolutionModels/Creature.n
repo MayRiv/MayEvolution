@@ -53,92 +53,92 @@ namespace MayEvolutionModels
           }
           def getWhatISee = (e:Entity)=>{(Math.Abs(e.X - this.X) < this.viewRadius) && (Math.Abs(e.Y - this.Y) < this.viewRadius)};
           
-          if(hunger < hungerFear)
-          {
-              def food = findNearestFood();
-              match(food)
-              {
-                |food is Food =>
-                {
-                  moveTo(food);
-                
-                  when(isTouching(food))
-                  {
-                     eat(food);
-                  }
-                }
-                | _ => {moveSomewhere()}
-              }
-          }
-          else
-          {
-               match(findNearestCreature())
-               {
-                |c is Creature =>
-                {
-                    moveTo(c);
-                    when (isTouching(c))
-                    {
-                       def boundary = 0.1;
-                       if (Math.Abs(this.R - c.R) < boundary &&
-                           Math.Abs(this.G - c.G) < boundary &&
-                           Math.Abs(this.B - c.B) < boundary)
-                             when (c.daysToBreeding < 0 && this.daysToBreeding < 0)
-                                Map.Instance.Entities = doSex(c)::Map.Instance.Entities;
-                        else
-                            eat(c);
-                    }
-                }
-                |_ => moveSomewhere();
-               }
-               moveSomewhere();  
-           }
-          //def getFoodISee = (e:Entity, f:Entity->bool)=>{f(e) && e is Food;};
-          //def boundary = 0.1;
-          //def isSameColour = (e:Entity)=>{Math.Abs(this.R - e.R) < boundary && Math.Abs(this.G - e.G) < boundary && Math.Abs(this.B - e.B) < boundary;};
-          //def getEnemyISee = (e:Entity, f:Entity->bool)=>{f(e) && e is Creature && !isSameColour(e);};
-          //def getFriendISee = (e:Entity, f:Entity->bool)=>{f(e) && e is Creature && isSameColour(e);};
-          
-          //def enemies = Map.Instance.Entities.Filter(getEnemyISee(_,getWhatISee));
-          //if (enemies.Length == 0)
+          //if(hunger < hungerFear)
           //{
-          //   if (hunger < hungerFear)
-          //   {
-          //      def foodList = Map.Instance.Entities.Filter(getFoodISee(_,getWhatISee)); 
-          //      if (foodList.Length != 0)
-          //          {
-          //              def food = findNearest(foodList);
-          //              moveTo(food);
-          //              when (isTouching(food))
-          //                  eat(food);
-          //          }
-          //       else moveSomewhere();
-          //   }
-          //   else
-          //   {
-          //       def friends = Map.Instance.Entities.Filter(getFriendISee(_,getWhatISee));
-          //       if (friends.Length != 0)
-          //       {
-          //           def friend = findNearest(friends);   
-                     
-          //           if ((friend:>Creature).daysToBreeding < 0 && this.daysToBreeding < 0 )
-          //           {
-          //               moveTo(friend);
-          //               when(isTouching(friend))
-          //                  Map.Instance.Entities = doSex(friend:>Creature)::Map.Instance.Entities;
-          //           }
-          //           else moveSomewhere();
-          //       }
-          //       else moveSomewhere();
-          //   }
+          //    def food = findNearestFood();
+          //    match(food)
+          //    {
+          //      |food is Food =>
+          //      {
+          //        moveTo(food);
+                
+          //        when(isTouching(food))
+          //        {
+          //           eat(food);
+          //        }
+          //      }
+          //      | _ => {moveSomewhere()}
+          //    }
           //}
           //else
           //{
-          //    def enemy = findNearest(enemies);   
-          //    moveTo(enemy);
-          //    when(isTouching(enemy))
-          //      eat(enemy);
-          //}
+          //     match(findNearestCreature())
+          //     {
+          //      |c is Creature =>
+          //      {
+          //          moveTo(c);
+          //          when (isTouching(c))
+          //          {
+          //             def boundary = 0.1;
+          //             if (Math.Abs(this.R - c.R) < boundary &&
+          //                 Math.Abs(this.G - c.G) < boundary &&
+          //                 Math.Abs(this.B - c.B) < boundary)
+          //                   when (c.daysToBreeding < 0 && this.daysToBreeding < 0)
+          //                      Map.Instance.Entities = doSex(c)::Map.Instance.Entities;
+          //              else
+          //                  eat(c);
+          //          }
+          //      }
+          //      |_ => moveSomewhere();
+          //     }
+          //     moveSomewhere();  
+          // }
+          def getFoodISee = (e:Entity, f:Entity->bool)=>{f(e) && e is Food;};
+          def boundary = 0.1;
+          def isSameColour = (e:Entity)=>{Math.Abs(this.R - e.R) < boundary && Math.Abs(this.G - e.G) < boundary && Math.Abs(this.B - e.B) < boundary;};
+          def getEnemyISee = (e:Entity, f:Entity->bool)=>{f(e) && e is Creature && !e.Equals(this) && !isSameColour(e);};
+          def getFriendISee = (e:Entity, f:Entity->bool)=>{f(e) && e is Creature && !e.Equals(this) && isSameColour(e);};
+          
+          def enemies = Map.Instance.Entities.Filter(getEnemyISee(_,getWhatISee));
+          if (enemies.Length == 0)
+          {
+             if (hunger < hungerFear)
+             {
+                def foodList = Map.Instance.Entities.Filter(getFoodISee(_,getWhatISee)); 
+                if (foodList.Length != 0)
+                    {
+                        def food = findNearest(foodList);
+                        moveTo(food);
+                        when (isTouching(food))
+                            eat(food);
+                    }
+                 else moveSomewhere();
+             }
+             else
+             {
+                 def friends = Map.Instance.Entities.Filter(getFriendISee(_,getWhatISee));
+                 if (friends.Length != 0)
+                 {
+                     def friend = findNearest(friends);   
+                     
+                     if ((friend:>Creature).daysToBreeding < 0 && this.daysToBreeding < 0 )
+                     {
+                         moveTo(friend);
+                         when(isTouching(friend))
+                            Map.Instance.Entities = doSex(friend:>Creature)::Map.Instance.Entities;
+                     }
+                     else moveSomewhere();
+                 }
+                 else moveSomewhere();
+             }
+          }
+          else
+          {
+              def enemy = findNearest(enemies);   
+              moveTo(enemy);
+              when(isTouching(enemy))
+                eat(enemy);
+          }
           
           
           
@@ -221,9 +221,9 @@ namespace MayEvolutionModels
                     getMutation((this.breedingCycleSpeed + partner.breedingCycleSpeed) / 2),/*breedingCycle*/
                     getMutation((hungerFear + partner.hungerFear)) / 2,/*hungerFear*/
                     getMutation((hungerSpeed + partner.hungerSpeed)) / 2,
-                    getMutation((R + partner.R / 2 )),
-                    getMutation((G + partner.G / 2 )),
-                    getMutation((B + partner.B / 2 )));
+                    getMutation((R + partner.R  )/ 2),
+                    getMutation((G + partner.G  )/ 2),
+                    getMutation((B + partner.B  )/ 2));
            
         }
         

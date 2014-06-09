@@ -94,6 +94,10 @@
       <Project>{4ed312c4-bf19-4ee0-8707-9cd08bdc28a5}</Project>
       <Name>MayEvolutionModels</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MayEvolutionPresenter\MayEvolutionPresenter.nproj">
+      <Project>{3c295bca-4c3f-457d-a525-02fb0f437c7d}</Project>
+      <Name>MayEvolutionPresenter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

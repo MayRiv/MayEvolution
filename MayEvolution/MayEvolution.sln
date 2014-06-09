@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MayEvolutionView", "MayEvol
 EndProject
 Project("{EDCC3B85-0BAD-11DB-BC1A-00112FDE8B61}") = "MayEvolutionModels", "MayEvolutionModels\MayEvolutionModels.nproj", "{4ED312C4-BF19-4EE0-8707-9CD08BDC28A5}"
 EndProject
+Project("{EDCC3B85-0BAD-11DB-BC1A-00112FDE8B61}") = "MayEvolutionPresenter", "MayEvolutionPresenter\MayEvolutionPresenter.nproj", "{3C295BCA-4C3F-457D-A525-02FB0F437C7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{4ED312C4-BF19-4EE0-8707-9CD08BDC28A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4ED312C4-BF19-4EE0-8707-9CD08BDC28A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4ED312C4-BF19-4EE0-8707-9CD08BDC28A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C295BCA-4C3F-457D-A525-02FB0F437C7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C295BCA-4C3F-457D-A525-02FB0F437C7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C295BCA-4C3F-457D-A525-02FB0F437C7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C295BCA-4C3F-457D-A525-02FB0F437C7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

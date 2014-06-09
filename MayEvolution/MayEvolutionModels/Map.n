@@ -12,7 +12,7 @@ namespace MayEvolutionModels
   /// <summary>
   /// Description of Map.
   /// </summary>
-  class Map
+  public class Map
   {
       public Randomizer:Random{get;}
       public Entities:list[Entity]{get;set;}
@@ -107,6 +107,13 @@ namespace MayEvolutionModels
              when (instance == null) instance = Map();
              instance;
          }
+      }
+      public AliveCreatures:int 
+      {get
+        {
+            def f = (e:Entity)=>{!e.Dead;};
+            Entities.Filter(f).Count();
+        }
       }
          
       private this()

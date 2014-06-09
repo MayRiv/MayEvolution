@@ -6,8 +6,8 @@ using Nemerle.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Timers;
-namespace MayEvolutionModels
+using MayEvolutionModels;
+namespace MayEvolutionPresenter
 {
   /// <summary>
   /// Description of MEPresenter.
@@ -15,8 +15,6 @@ namespace MayEvolutionModels
   public class MEPresenter
   {
       view:IView;
-      //mutable entities:list[Entity];
-      mutable timer:Timer;
       public this(view:IView)
       {
          this.view = view;
@@ -50,6 +48,5 @@ namespace MayEvolutionModels
                 else when (l.Count() != 0)
                     findCreature(l.Tail);
           }
-          
   }
 }

@@ -80,9 +80,6 @@
     <Compile Include="Map.n">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MEPresenter.n">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.n" />
   </ItemGroup>
   <ItemGroup>

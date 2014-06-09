@@ -9,9 +9,7 @@ using System.Linq;
 
 namespace MayEvolutionModels
 {
-  /// <summary>
-  /// Description of Food.
-  /// </summary>
+  
   public class Food:Entity,IEatable
   {
       public canFeed:bool{get;}

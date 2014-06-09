@@ -12,11 +12,12 @@ namespace MayEvolutionModels
   /// <summary>
   /// Description of Creature.
   /// </summary>
-    public class Creature:Entity
+    public class Creature:Entity, IEatable
     {
         protected mutable hunger:float;
         protected mutable health:float;
         protected mutable daysToBreeding:float;
+        public  canFeed:bool{get;}
  
         public strength:float;
         public speed:float;
@@ -28,6 +29,7 @@ namespace MayEvolutionModels
         public this(x:double, y:double, strength:float, speed:float, viewRadius:float,breedingCycleSpeed:float,hungerFear:float,hungerSpeed:float,r=1.0f:float, g=0f:float, b=0f:float)
         {
             base(x,y,r,g,b);
+            canFeed = false;
             health = 1f;
             hunger = 1f;
             daysToBreeding = 1f;
@@ -52,7 +54,7 @@ namespace MayEvolutionModels
               Math.Sqrt(Math.Pow((this.X - e.X),2) + Math.Pow((this.Y-e.Y),2)) < speed;
           }
           def getWhatISee = (e:Entity)=>{(Math.Abs(e.X - this.X) < this.viewRadius) && (Math.Abs(e.Y - this.Y) < this.viewRadius)};
-          def getFoodISee = (e:Entity, f:Entity->bool)=>{f(e) && e is Food;};
+          def getFoodISee = (e:Entity, f:Entity->bool)=>{f(e) && e is IEatable && (e:>IEatable).canFeed;};
           def boundary = 0.1;
           def isSameColour = (e:Entity)=>{Math.Abs(this.R - e.R) < boundary && Math.Abs(this.G - e.G) < boundary && Math.Abs(this.B - e.B) < boundary;};
           def getEnemyISee = (e:Entity, f:Entity->bool)=>{f(e) && e is Creature && !e.Equals(this) && !isSameColour(e);};
@@ -70,7 +72,7 @@ namespace MayEvolutionModels
                         def food = findNearest(foodList);
                         moveTo(food);
                         when (isTouching(food))
-                            eat(food);
+                            eat(food:>IEatable);
                     }
                  else moveSomewhere();
              }
@@ -97,21 +99,29 @@ namespace MayEvolutionModels
               def enemy = findNearest(enemies);   
               moveTo(enemy);
               when(isTouching(enemy))
-                eat(enemy);
+                attack(enemy);
           }
-          
-          
-          
+
           hunger-=Math.Abs(hungerSpeed);
           when (this.daysToBreeding >= 0) this.daysToBreeding-= Math.Abs(this.breedingCycleSpeed);
           when(hunger <= 0) this.Dead = true;
 
         }
-        protected eat(food:Entity):void
+        public Feed():void
         {
-               
-            when(food.TakeDamage(health * strength))
+             //TODO: implement feeding logic.
+        }
+        protected eat(food:IEatable):void
+        {
+            when(food.canFeed)
+            {
+                food.Feed();
                 this.hunger = 1f;
+            }
+        }
+        protected attack(enemy:Entity):void
+        {
+            _ = enemy.TakeDamage(strength * health);   
         }
         
         public override TakeDamage(damage:float):bool
@@ -119,18 +129,6 @@ namespace MayEvolutionModels
           health-= damage;
           when (health <= 0) Dead = true;
           Dead;
-        }
-        protected findNearestFood():(Entity)
-        {
-          def getFoodISee = (e:Entity)=>{(Math.Abs(e.X - this.X) < this.viewRadius) && (Math.Abs(e.Y - this.Y) < this.viewRadius) && e is Food;};
-          def world = Map.Instance.Entities.Filter(getFoodISee);
-          findNearest(world);
-        }
-        protected findNearestCreature():(Entity)
-        {
-          def getCreatureISee = (e:Entity)=>{(Math.Abs(e.X - this.X) < this.viewRadius) && (Math.Abs(e.Y - this.Y) < this.viewRadius) && e is Creature;};
-          def world = Map.Instance.Entities.Filter(getCreatureISee);
-          findNearest(world);
         }
         protected findNearest(l:list[Entity]):Entity
         {

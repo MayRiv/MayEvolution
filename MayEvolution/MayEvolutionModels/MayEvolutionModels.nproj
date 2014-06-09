@@ -77,6 +77,9 @@
     <Compile Include="IDrawable.n">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IEatable.n">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="IView.n">
       <SubType>Code</SubType>
     </Compile>

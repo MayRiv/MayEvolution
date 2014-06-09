@@ -23,7 +23,7 @@ namespace MayEvolutionModels
             this.R = 1f;
             this.G = 0f;
             NutritionalValue = 5;
-            daysToDivide = 10;
+            daysToDivide = 40;
       }
       public override ChangeState():void
       {

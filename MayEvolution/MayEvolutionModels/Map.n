@@ -39,7 +39,8 @@ namespace MayEvolutionModels
           def hungerFear = 0.4f;
           def hungerSpeed = 0.1f;
           def createCreature = (x:float, y:float, r:float,g:float,b:float)=>{Creature(x,y,strength,speed,view,breedingCycleSpeed,hungerFear,hungerSpeed,r,g,b);};
-          Map.Instance.Entities = FruitTree(-2.0f,0f)::createCreature(-2.0f,0f,1,0,0)::createCreature(-2.2f,0f,1,0,0)::[];
+          Map.Instance.Entities = FruitTree(0f,0f)::[];
+          Map.Instance.Entities = FruitTree(-2.0f,0f)::createCreature(-2.0f,0f,1,0,0)::createCreature(-2.2f,0f,1,0,0)::Map.Instance.Entities;
           Map.Instance.Entities = FruitTree(2.0f,0f)::createCreature(2.0f,0f,0,0,1)::createCreature(2.2f,0f,0,0,1)::Entities;
           //  Map.Instance.Entities = Forest(-1.5f,-0.4f)::Creature(-1.2f, -0.5f,/*coords*/
         //                                                   0.3f,/*strength*/

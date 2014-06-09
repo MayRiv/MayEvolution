@@ -20,7 +20,7 @@ namespace MayEvolutionModels
             this.B = 0f;
             this.R = 0f;
             this.G = 0f;
-            NutritionalValue = 2;
+            NutritionalValue = 3;
       }
   }
 }

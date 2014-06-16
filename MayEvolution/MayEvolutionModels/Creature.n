@@ -45,20 +45,21 @@ namespace MayEvolutionModels
           def moveTo = (e:Entity) => {
             def (dx,dy) = ((e.X-this.X), (e.Y - this.Y));
             
-            this.X+=if (Math.Abs(dx) > speed) speed*Math.Abs(dx)/dx;
+            this.X+=if (Math.Abs(dx) > speed) speed*Math.Sign(dx);;
                     else dx;
-            this.Y+=if (Math.Abs(dy) > speed) speed*Math.Abs(dy)/dy;
+            this.Y+=if (Math.Abs(dy) > speed) speed*Math.Sign(dy);;
                     else dy;          
           }
           def isTouching = (e:Entity) => {
-              Math.Sqrt(Math.Pow((this.X - e.X),2) + Math.Pow((this.Y-e.Y),2)) < speed;
+              Math.Sqrt(Math.Pow((this.X - e.X),2) + Math.Pow((this.Y-e.Y),2)) < this.Width / 2;
           }
-          def getWhatISee = (e:Entity)=>{(Math.Abs(e.X - this.X) < this.viewRadius) && (Math.Abs(e.Y - this.Y) < this.viewRadius)};
-          def getFoodISee = (e:Entity, f:Entity->bool)=>{f(e) && e is IEatable && (e:>IEatable).canFeed;};
-          def boundary = 0.1;
+
+          def getWhatISee = (e:Entity)=>{!e.Equals(this) && (Math.Abs(e.X - this.X) < this.viewRadius) && (Math.Abs(e.Y - this.Y) < this.viewRadius)};
+          def getFoodISee = (e:Entity, see:Entity->bool)=>{see(e) && e is IEatable && (e:>IEatable).canFeed && !e.Equals(this);};
+          def boundary = 0.2;
           def isSameColour = (e:Entity)=>{Math.Abs(this.R - e.R) < boundary && Math.Abs(this.G - e.G) < boundary && Math.Abs(this.B - e.B) < boundary;};
-          def getEnemyISee = (e:Entity, f:Entity->bool)=>{f(e) && e is Creature && !e.Equals(this) && !isSameColour(e);};
-          def getFriendISee = (e:Entity, f:Entity->bool)=>{f(e) && e is Creature && !e.Equals(this) && isSameColour(e);};
+          def getEnemyISee = (e:Entity, see:Entity->bool)=>{see(e) && e is Creature && !e.Equals(this) && !isSameColour(e);};
+          def getFriendISee = (e:Entity, see:Entity->bool)=>{see(e) && e is Creature && !e.Equals(this) && isSameColour(e);};
           
  
           def enemies = Map.Instance.Entities.Filter(getEnemyISee(_,getWhatISee));
@@ -79,11 +80,14 @@ namespace MayEvolutionModels
              else
              {
                  def friends = Map.Instance.Entities.Filter(getFriendISee(_,getWhatISee));
-                 if (friends.Length != 0)
+                 if (friends.Length != 0 && this.daysToBreeding < 0)
                  {
-                     def friend = findNearest(friends);   
                      
-                     if ((friend:>Creature).daysToBreeding < 0 && this.daysToBreeding < 0 )
+                     def checkCycles = (e:Entity) =>{(e:>Creature).daysToBreeding < 0;};
+                     
+                     def friendsReady = friends.Filter(checkCycles);
+                     def friend = findNearest(friendsReady);
+                     if (friend != null)
                      {
                          moveTo(friend);
                          when(isTouching(friend))
@@ -102,8 +106,8 @@ namespace MayEvolutionModels
                 attack(enemy);
           }
 
-          hunger-=Math.Abs(hungerSpeed);
-          when (this.daysToBreeding >= 0) this.daysToBreeding-= Math.Abs(this.breedingCycleSpeed);
+          hunger-=hungerSpeed;
+          when (this.daysToBreeding >= 0) this.daysToBreeding-= this.breedingCycleSpeed;
           when(hunger <= 0) this.Dead = true;
 
         }
@@ -171,8 +175,8 @@ namespace MayEvolutionModels
            partner.daysToBreeding = 1f;
            def getMutation = (value:float)=>{match(Map.Instance.Randomizer.Next(2))
                  {
-                  |0 => (value -0.05):>float;
-                  |1 => (value +0.05):>float;
+                  |0 => Math.Abs(value -0.05):>float;
+                  |1 => Math.Abs(value +0.05):>float;
                  }}
            Creature(X, Y,/*coords*/
                     getMutation((strength + partner.strength) / 2),/*strength*/

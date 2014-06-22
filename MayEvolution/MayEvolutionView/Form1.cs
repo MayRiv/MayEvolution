@@ -125,7 +125,7 @@ namespace MayEvolutionView
             }
             if (o.state == State.Kicked._N_constant_object)
             {
-                Gl.glColor3f(0, 0, 0);
+                Gl.glColor3f(1f, 0, 1f);
             }
 
             if (o.state != State.Default._N_constant_object)

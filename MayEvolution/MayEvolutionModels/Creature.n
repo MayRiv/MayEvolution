@@ -57,7 +57,7 @@ namespace MayEvolutionModels
 
           def getWhatISee = (e:Entity)=>{!e.Equals(this) && (Math.Abs(e.X - this.X) < this.viewRadius) && (Math.Abs(e.Y - this.Y) < this.viewRadius)};
           def getFoodISee = (e:Entity, see:Entity->bool)=>{see(e) && e is IEatable && (e:>IEatable).canFeed && !e.Equals(this);};
-          def boundary = 0.2;
+          def boundary = 0.15;
           def isSameColour = (e:Entity)=>{Math.Abs(this.R - e.R) < boundary && Math.Abs(this.G - e.G) < boundary && Math.Abs(this.B - e.B) < boundary;};
           def getEnemyISee = (e:Entity, see:Entity->bool)=>{see(e) && e is Creature && !e.Equals(this) && !isSameColour(e);};
           def getFriendISee = (e:Entity, see:Entity->bool)=>{see(e) && e is Creature && !e.Equals(this) && isSameColour(e);};

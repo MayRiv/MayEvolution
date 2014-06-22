@@ -32,7 +32,7 @@ namespace MayEvolutionModels
       }
       public Init():void
       {
-          def strength = 0.3f;
+          def strength = 0.1f;
           def speed = 0.2f;
           def view = 1.5f;
           def breedingCycleSpeed = 0.15f;

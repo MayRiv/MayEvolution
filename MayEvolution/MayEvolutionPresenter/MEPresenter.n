@@ -28,7 +28,10 @@ namespace MayEvolutionPresenter
           Map.Instance.ChangeWorld();
           view.CreatureNumber = Map.Instance.Entities.Count();
           view.Clear();
-          findCreature(Map.Instance.Entities);
+          unless (Map.Instance.Entities.Length != 0)
+            findCreature(Map.Instance.Entities);
+          
+            
           
           foreach(entity in Map.Instance.Entities)
               view.Draw(entity);

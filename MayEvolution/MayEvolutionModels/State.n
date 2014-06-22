@@ -1,0 +1,20 @@
+﻿using Nemerle;
+using Nemerle.Collections;
+using Nemerle.Text;
+using Nemerle.Utility;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace MayEvolutionModels
+{
+  public variant State
+  {
+   | Repast
+   | Attack
+   | Sex
+   | Kicked
+   | Default
+  }
+}

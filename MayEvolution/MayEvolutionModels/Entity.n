@@ -12,9 +12,11 @@ namespace MayEvolutionModels
   /// <summary>
   /// Description of Entity.
   /// </summary>
+
   public abstract class Entity:IDrawable
   {
       public Dead:bool{get;protected set;}
+      public state:State{get;set;}
       public X:double{get; protected set;}
       public Y:double{get;protected set;}
       public Width:double{get;}
@@ -31,6 +33,7 @@ namespace MayEvolutionModels
           this.R = r;
           this.G = g;
           this.B = b;
+          this.state = State.Default();
       }
       public abstract TakeDamage(_:float):bool;
       public abstract ChangeState():void;

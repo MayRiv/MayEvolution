@@ -14,6 +14,7 @@ namespace MayEvolutionModels
   /// </summary>
   public interface IDrawable
   {
+      state:State{get;set}
       X:double{get;}
       Y:double{get;}
       Width:double{get;}

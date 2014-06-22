@@ -48,7 +48,8 @@ namespace MayEvolutionModels
             this.X+=if (Math.Abs(dx) > speed) speed*Math.Sign(dx);;
                     else dx;
             this.Y+=if (Math.Abs(dy) > speed) speed*Math.Sign(dy);;
-                    else dy;          
+                    else dy;
+            this.state = State.Default();
           }
           def isTouching = (e:Entity) => {
               Math.Sqrt(Math.Pow((this.X - e.X),2) + Math.Pow((this.Y-e.Y),2)) < this.Width / 2;
@@ -117,22 +118,22 @@ namespace MayEvolutionModels
         }
         protected eat(food:IEatable):void
         {
-            when(food.canFeed)
-            {
-                food.Feed();
-                this.hunger = 1f;
-            }
+            this.state = State.Repast();
+            food.Feed();
+            this.hunger = 1f;
         }
         protected attack(enemy:Entity):void
         {
+            this.state = State.Attack();
             _ = enemy.TakeDamage(strength * health);   
         }
         
         public override TakeDamage(damage:float):bool
         {
-          health-= damage;
-          when (health <= 0) Dead = true;
-          Dead;
+            this.state = State.Kicked();
+            health-= damage;
+            when (health <= 0) Dead = true;
+            Dead;
         }
         protected findNearest(l:list[Entity]):Entity
         {
@@ -152,25 +153,26 @@ namespace MayEvolutionModels
           entity;
         }
         protected moveSomewhere():void
-        {    
-        def dx = match(Map.Instance.Randomizer.Next(2))
-                 {
-                  |0 => -1;
-                  |1 => 1;
-                 }
-        def dy = match(Map.Instance.Randomizer.Next(2))
-                 {
-                  |0 => -1;
-                  |1 => 1;
-                 }
-        this.X += speed*dx;
-        this.Y += speed*dy;
+        {   
+            this.state = State.Default();
+            def dx = match(Map.Instance.Randomizer.Next(2))
+                     {
+                      |0 => -1;
+                      |1 => 1;
+                     }
+            def dy = match(Map.Instance.Randomizer.Next(2))
+                     {
+                      |0 => -1;
+                      |1 => 1;
+                     }
+            this.X += speed*dx;
+            this.Y += speed*dy;
         
         
       }
         protected doSex(partner:Creature):Creature
         { 
-           
+           this.state = State.Sex();
            this.daysToBreeding = 1f;
            partner.daysToBreeding = 1f;
            def getMutation = (value:float)=>{match(Map.Instance.Randomizer.Next(2))

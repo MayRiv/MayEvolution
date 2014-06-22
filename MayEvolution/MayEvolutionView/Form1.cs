@@ -100,9 +100,9 @@ namespace MayEvolutionView
         public void Draw(IDrawable o)
         {
             //Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
-            
+
             Gl.glLoadIdentity();
-            Gl.glColor3f(o.R, o.G, o.B);
+            
 
             Gl.glPushMatrix();
             Gl.glTranslated(0, 0, -6);
@@ -110,6 +110,40 @@ namespace MayEvolutionView
 
             // рисуем сферу с помощью библиотеки FreeGLUT 
             //Glut.glutWireSphere(2, 32, 32);
+            #region backlight
+            if (o.state == State.Repast._N_constant_object)
+            {
+                Gl.glColor3f(0, 1f, 0);
+            }
+            if (o.state == State.Sex._N_constant_object)
+            {
+                Gl.glColor3f(0, 1f, 1f);
+            }
+            if (o.state == State.Attack._N_constant_object)
+            {
+                Gl.glColor3f(1f, 1f, 0);
+            }
+            if (o.state == State.Kicked._N_constant_object)
+            {
+                Gl.glColor3f(0, 0, 0);
+            }
+
+            if (o.state != State.Default._N_constant_object)
+            {
+              //Gl.glColor3f(1f, 1f, 1f);
+                Gl.glBegin(Gl.GL_QUADS);
+                float boundary = 0.1f;
+                Gl.glVertex2d(o.X - boundary * o.Width, o.Y - boundary * o.Width);
+                Gl.glVertex2d(o.X + o.Width + boundary * o.Width, o.Y - boundary * o.Width);
+                Gl.glVertex2d(o.X + o.Width + boundary * o.Width, o.Y + o.Height + boundary * o.Width);
+                Gl.glVertex2d(o.X - boundary * o.Width, o.Y + o.Height + boundary * o.Width);
+                Gl.glEnd();
+            }
+        
+            
+            #endregion
+
+            Gl.glColor3f(o.R, o.G, o.B);
             Gl.glBegin(Gl.GL_QUADS);
             Gl.glVertex2d(o.X, o.Y);
             Gl.glVertex2d(o.X + o.Width, o.Y);
